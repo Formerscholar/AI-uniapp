@@ -3,9 +3,7 @@
 		<view class='topBg'>
 			<image src='//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/bg/loginBg.png'></image>
 		</view>
-		
 		<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/bg/aiFalse.png" mode="" class='aiFalse'>
-		
 		<view class="login">
 			<view class="sf">
 				请选择您的身份
@@ -13,7 +11,6 @@
 			<button open-type="getUserInfo" @getuserinfo="bindgetuserinfo($event,4)">我是学生</button>
 			<button open-type="getUserInfo" @getuserinfo="bindgetuserinfo($event,3)">我是老师</button>
 		</view>
-		<!-- <view class="banquan">扬州骐骥信息科技有限公司</view> -->
 		<uni-popup ref="popup" type="center">
 			<view class="bindphone">
 				<view class="">
@@ -27,11 +24,11 @@
 
 <script>
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
-	
 	import { 
 		mapState,
 		mapMutations
 	} from 'vuex';
+	
 	export default {
 		components: {uniPopup},
 		data() {
@@ -44,101 +41,83 @@
 				userInfo:{},
 				sessionkey:'',
 				openid:'',
+				code:'',
 			};
 		},
 		onLoad() {
-			
+			uni.login({
+				success: (res) => {
+					this.code = res.code
+				}
+			})
 		},
 		methods:{ 
 			...mapMutations(['login','set_type']),
-			setlogin(i){
-				this.type=i
-				this.loginmode=i
-				this.set_type(i);
-				uni.setStorage({
-					key:'type',
-					data:i
-				})
-				console.log(this.$store.state.type)
-			},
 			bindgetuserinfo(e,i){
-				// this.$refs.popup.open()
 				uni.setStorage({
 					key:'type',
 					data:i,
 				})
-				uni.login({
-					success: (res) => {
-						this.code=res.code 
-						uni.setStorageSync('info',e.detail.userInfo)//头像  姓名
-						var code=res.code
-						let data={
-							code:code,
-							user_name:e.detail.userInfo.nickName,
-							avatar:e.detail.userInfo.avatarUrl,
-							gender:e.detail.userInfo.gender,
-						}
-						this.userInfo = {...e.detail.userInfo}
-						if(i==3){
-							this.$api.teacher_login(data)
-							.then(res=>{
-								this.sessionkey=res.data.session_key
-								this.openid=res.data.openid
-								console.log('res.data.data ',res.data)
-								if(res.code==200){
-									this.login(res.data)
-									uni.setStorage({//缓存用户登陆状态
-										key: 'userInfo',  
-										data: res.data
-									})
-									uni.reLaunch({
-										url:'/pages/index/index'
-									})	
-									// this.user_id=res.data.user_id 
-								}else{ 	
-									uni.setStorage({
-										key: 'openid',  
-										data: res.data.openid
-									})
-									this.$refs.popup.open()
-								}
+				uni.setStorageSync('info',e.detail.userInfo)//头像  姓名
+				if(i==3){
+					this.$api.teacher_login({
+						code:this.code
+					})
+					.then(res=>{
+						this.sessionkey=res.data.session_key
+						this.openid=res.data.openid
+						console.log('res.data.data ',res.data)
+						if(res.code==200){
+							this.login(res.data)
+							uni.setStorage({//缓存用户登陆状态
+								key: 'userInfo',  
+								data: res.data
 							})
-							
+							uni.reLaunch({
+								url:'/pages/index/index'
+							})	
+							// this.user_id=res.data.user_id 
+						}else{ 	
+							uni.setStorage({
+								key: 'openid',  
+								data: res.data.openid
+							})
+							this.$refs.popup.open()
+						}
+					})
+				}else{
+					console.log('学生登录');
+					this.$api.student_login({
+						code:this.code
+					})
+					.then(res=>{
+						this.session_key=res.data.session_key
+						console.log('res',res) 
+						if(res.code==200){
+							this.login(res.data)
+							uni.setStorage({
+								key: 'is_vip',  
+								data: res.data.is_vip
+							})
+							if(!res.data.is_bind){
+								uni.navigateTo({
+									url:'/pages/login/bindinfo'
+								})
+							}else{
+								uni.reLaunch({
+									url:'/pages/index/index'
+								})
+							}
 						}else{
-							console.log('学生登录');
-							this.$api.student_login(data)
-							.then(res=>{
-								this.session_key=res.data.session_key
-								console.log('res',res) 
-								if(res.code==200){
-									this.login(res.data)
-									uni.setStorage({
-										key: 'is_vip',  
-										data: res.data.is_vip
-									})
-									if(!res.data.is_bind){
-										uni.navigateTo({
-											url:'/pages/login/bindinfo'
-										})
-									}else{
-										uni.reLaunch({
-											url:'/pages/index/index'
-										})
-									}
-									
-								}else{
-									uni.showToast({
-										title: res.msg,
-										icon:'none'
-									});
-								}
-							})
+							uni.showToast({
+								title: res.msg,
+								icon:'none'
+							});
 						}
-					}
-				})
+					})
+				}		
 				console.log(e)
 			},
-			//获取手机号
 			getphone(e){
 				console.log(e)			
 				let data={
@@ -172,9 +151,6 @@
 					}
 					console.log(res)
 				})
-			},
-			getuserinfo(e){
-				console.log(e)
 			},
 		}
 	}
