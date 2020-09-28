@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<view class="joinClassBg"><image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/bg/joinClass.png" /></view>
+		<view class="joinClassBg"></view>
 		<view class="btn"></view>
 		<view class="login">
 			<view class="teacherName">
@@ -50,8 +50,9 @@ export default {
 			num: '',
 			code: '',
 			mobile: '',
+			$e: '',
+			$i: '',
 			sessionkey: '',
-			school_id: '',
 			openid: ''
 		};
 	},
@@ -59,95 +60,25 @@ export default {
 		console.log('options', options);
 		this.id = options.id;
 		this.name = options.name;
+		this.school = options.school;
 		this.class_id = options.class_id;
 		this.teacher_name = options.teacher_name;
 		this.team_id = options.team_id;
-		this.school = options.school;
-		this.get_wx_login()
+		this.get_get_team_location();
 		this.get_team_subject();
+		uni.login({
+			success: res => {
+				this.code = res.code;
+				this.get_teacher_login()
+			}
+		});
 	},
 	methods: {
 		...mapMutations(['login', 'set_type']),
-		get_teacher_locail(){
-			this.$api
-				.get_team_location({
-					classid: this.class_id
-				})
-				.then(res => {
-					console.log('get_team_location', res);
-					this.school_id = res.data.school_id;
-					this.province_id = res.data.area.province_id;
-					this.city_id = res.data.area.city_id;
-					this.area_id = res.data.area.area_id;
-				});
-		},
-		get_teacher_login(){
-			this.$api
-				.teacher_login({
-					code: this.code,
-				})
-				.then(res => {
-					this.sessionkey = res.data.session_key;
-					this.openid = res.data.openid;
-					console.log('teacher_login',res)
-					if (res.code == 200) {
-						uni.setStorage({
-							key: 'userinfo_tmp',
-							data: res.data
-						});
-						uni.setStorage({
-							key: 'token',
-							data: res.data.token
-						});
-						uni.setStorage({
-							key: 'userInfo',
-							data: res.data
-						});
-						this.true_name = res.data.true_name;
-						this.subject_title = res.data.subject_title;
-						this.disable = true;
-						this.joinTeam();
-					} else {
-						this.$refs.popup.open();
-						this.disable = false;
-					}
-				});
-		},
-		bindgetuserinfo(e, i) {
-			uni.setStorage({
-				key: 'type',
-				data: i
-			});
-			if (!this.true_name) {
-				uni.showToast({
-					title: '请输入真实姓名',
-					icon: 'none'
-				});
-				return;
-			}
-			if (!this.num && !this.subject_id) {
-				uni.showToast({
-					title: '请选择学科',
-					icon: 'none'
-				});
-				return;
-			}
-			this.get_teacher_login()
-		},
-		get_wx_login(){
-			uni.login({
-				success: res => {
-					this.code = res.code;
-					this.user_info = e.detail.userInfo;
-					this.get_teacher_locail()
-					this.get_teacher_login()
-				}
-			});
-		},
 		getphone(e) {
 			this.$refs.popup.close();
 			console.log(e);
-			this.$api.get_mobile( {
+			this.$api.get_mobile({
 				code: this.code,
 				iv: e.detail.iv,
 				encryptedData: e.detail.encryptedData,
@@ -166,26 +97,102 @@ export default {
 						url: '/pages/index/index'
 					});
 				} else {
-					this.get_teacher_bind_infon()
+					let data = {
+						province_id: this.province_id,
+						city_id: this.city_id,
+						area_id: this.area_id,
+						school_id: this.school,
+						subject_id: this.subject_id,
+						true_name: this.true_name,
+						mobile: this.mobile,
+						openid: this.openid,
+						nickName: this.user_info.nickName,
+						avatar: this.user_info.avatarUrl,
+						gender: this.user_info.gender
+					};
+					this.$api.teacher_bind_info(data).then(res => {
+						console.log(res);
+						if (res.code == 200) {
+							this.login(res.data);
+							this.joinTeam();
+						} else {
+							uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							});
+						}
+					});
 				}
 				console.log(res);
 			});
 		},
-		get_teacher_bind_infon(){
-			this.$api.teacher_bind_info({
-				province_id: this.province_id,
-				city_id: this.city_id,
-				area_id: this.area_id,
-				school_id: this.school_id,
-				subject_id: this.subject_id,
-				true_name: this.true_name,
-				mobile: this.mobile,
-				openid: this.openid,
+		bindgetuserinfo(e, i) {
+			this.user_info = e.detail.userInfo;
+			if (!this.true_name) {
+				uni.showToast({
+					title: '请输入真实姓名',
+					icon: 'none'
+				});
+				return;
+			}
+			if (!this.num && !this.subject_id) {
+				uni.showToast({
+					title: '请选择学科',
+					icon: 'none'
+				});
+				return;
+			}
+			this.get_teacher_login()
+		},
+		get_teacher_login(){
+			this.$api.teacher_login({
+				code: this.code,
 			}).then(res => {
-				console.log(res);
+				console.log('get_teacher_login',res)
+				this.sessionkey = res.data.session_key;
+				this.openid = res.data.openid;
+				if (res.code == 200) {
+					uni.setStorage({
+						key: 'userinfo_tmp',
+						data: res.data
+					});
+					uni.setStorage({
+						key: 'token',
+						data: res.data.token
+					});
+					uni.setStorage({
+						key: 'userInfo',
+						data: res.data
+					});
+					this.true_name = res.data.true_name;
+					// this.subject_id = res.data.subject_id;
+					this.subject_title = res.data.subject_title;
+					this.disable = true;
+					this.joinTeam();
+				} else {
+					this.$refs.popup.open();
+					this.disable = false;
+				}
+			});
+		},
+		joinTeam() {
+			let data = {
+				classid: this.class_id,
+				subject_id: this.subject_id
+			};
+			console.log(data);
+			this.$api.ter_join_team(data).then(res => {
 				if (res.code == 200) {
 					this.login(res.data);
-					this.joinTeam();
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					});
+					setTimeout(() => {
+						uni.switchTab({
+							url: '/pages/index/index'
+						});
+					}, 1000);
 				} else {
 					uni.showToast({
 						title: res.msg,
@@ -194,36 +201,22 @@ export default {
 				}
 			});
 		},
-		joinTeam() {
+		get_get_team_location() {
 			this.$api
-				.ter_join_team({
-					classid: this.class_id,
-					subject_id: this.subject_id
+				.get_team_location({
+					classid: this.class_id
 				})
 				.then(res => {
-					if (res.code == 200) {
-						this.login(res.data);
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						});
-						setTimeout(() => {
-							uni.switchTab({
-								url: '/pages/index/index'
-							});
-						}, 1000);
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						});
-					}
+					console.log('get_team_location', res);
+					this.school_id = res.data.school_id;
+					this.province_id = res.data.area.province_id;
+					this.city_id = res.data.area.city_id;
+					this.area_id = res.data.area.area_id;
 				});
 		},
 		get_team_subject(e) {
-			let req = this.$api.get_team_subject({ team_id: this.team_id });
-			req.then(res => {
-				this.subject_list = data;
+			this.$api.get_team_subject({ team_id: this.team_id }).then(res => {
+				this.subject_list = res.data;
 			});
 		},
 		bindChange(e) {
@@ -248,8 +241,8 @@ page {
 .joinClassBg {
 	width: 100%;
 	height: 510rpx;
-	background: url(//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/bg/mineBg.png) no-repeat center center;
-	background-size: 100% 101%;
+	background: url(//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/bg/joinClass.png) no-repeat center center;
+	background-size: 100% 100%;
 	display: flex;
 	image {
 		display: block;
