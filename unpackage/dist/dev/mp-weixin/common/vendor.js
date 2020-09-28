@@ -1945,6 +1945,8 @@ function normalizeComponent (
 "use strict";
 var _util = __webpack_require__(/*! ./util.js */ 14);
 
+
+
 // const ApiUrl = 'http://909.ecuca.net:10325/'//开发环境
 var ApiUrl = 'https://api.aictb.com/v1/'; //生产环境
 
@@ -2011,8 +2013,7 @@ module.exports = {
   get_mobile_for_share: function get_mobile_for_share(data) {return (0, _util.request)(ApiUrl + 'teacher/get_mobile_for_share/', data);}, //分享获取手机号
   //bind_mobile: data => request(ApiUrl+'teacher/check_teacher_mobile/',data),
   teacher_index: function teacher_index(data) {return (0, _util.request)(ApiUrl + 'teacher/index/', data);}, //教师首页信息
-  // teacher_login : data => request(ApiUrl+'teacher/wx_teacher_login/',data),//登录
-  teacher_login: function teacher_login(data) {return (0, _util.request)(ApiUrl + 'teacher/wx_teacher_login1/', data);}, //登录
+  teacher_login: function teacher_login(data) {return (0, _util.request)(ApiUrl + 'teacher/wx_teacher_login/', data);}, //登录
   get_teacher_info: function get_teacher_info(data) {return (0, _util.request)(ApiUrl + 'teacher/get_teacher_info/', data);}, //获取用户信息
   wei_teacher_error_book_list: function wei_teacher_error_book_list(data) {return (0, _util.request)(ApiUrl + 'teacher/my_not_created_error_book/', data);}, //未生成错题本列表
   school_test_paper: function school_test_paper(data) {return (0, _util.request)(ApiUrl + 'teacher/school_test_paper/', data);}, //校本试卷
@@ -13393,14 +13394,24 @@ if ( true && typeof module.exports === "object") {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(uni) {// 有loading，封装request
+/* WEBPACK VAR INJECTION */(function(uni) {function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;} // 有loading，封装request
 function request(url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "post";
   var _timestamp = timestamp();
   return new Promise(function (resolve, reject) {
     uni.showLoading({
       title: '玩命加载中' });
 
-    data.token = uni.getStorageSync('userInfo').token;
+    var userInfoData = uni.getStorageSync('userInfo');
+    if (data.token == '') {
+      data.token = userInfoData.token;
+    }
+    if (!data.hasOwnProperty('token')) {
+      data = _objectSpread({
+        token: userInfoData.token },
+      data);
+
+    }
+    console.log('request2', data);
     uni.request({
       url: url,
       data: data,

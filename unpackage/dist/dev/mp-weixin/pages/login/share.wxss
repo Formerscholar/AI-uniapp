@@ -189,7 +189,7 @@ page {
   margin-top: 50rpx;
 }
 .b-b {
-  background: #F8601C !important;
+  background: #f8601c !important;
   border: 1rpx solid transparent !important;
   color: #fff !important;
 }

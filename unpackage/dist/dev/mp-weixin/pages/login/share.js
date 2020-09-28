@@ -145,19 +145,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
 var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
-
-
-
 {
   data: function data() {
     return {
@@ -167,6 +155,7 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
       name: '',
       school: '',
       class_id: '',
+      school_id: '',
       teacher_name: '',
       disable: false,
       token: '',
@@ -174,71 +163,98 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
 
   },
   onLoad: function onLoad(options) {
-    // this.getuserinfo()
     console.log('options', options);
     if (uni.getStorageSync('userInfo').token) {
       this.token = uni.getStorageSync('userInfo').token;
     }
-    // this.id=72
     this.id = options.id;
     this.name = options.name;
-    this.school = options.school;
     this.class_id = options.class_id;
+    this.school = options.school;
     this.teacher_name = options.teacher_name;
-    // this.type=options.type
+    console.log('this.school', this.school);
+    this.get_wx_login();
   },
   methods: _objectSpread(_objectSpread({},
   (0, _vuex.mapMutations)(['login', 'set_type'])), {}, {
-    /* getuserinfo(){
-                                                         	uni.login({
-                                                         		success: (res) => {
-                                                         			let _this=this
-                                                         			let code=res.code
-                                                         			if(res.code){
-                                                         				uni.getSetting({
-                                                         					//查看用户是否授权
-                                                         					success(res) {
-                                                         						console.log('res.authSetting',res.authSetting)
-                                                         						if (res.authSetting['scope.userInfo']) {
-                                                         							//用户已经授权
-                                                         							uni.getUserInfo({
-                                                         							  //获取用户信息
-                                                         								success: (res) => {
-                                                         									console.log(res)
-                                                         									let data={
-                                                         										code:code,
-                                                         										token:_this.token
-                                                         									}
-                                                         									_this.$api.share_login(data)
-                                                         									.then(res=>{
-                                                         										_this.openid_tmp=res.data.openid
-                                                         										console.log(_this.openid_tmp)
-                                                         										if(res.code==200){ 
-                                                         											uni.setStorage({
-                                                         												key:'userinfo_tmp',
-                                                         												data:res.data.userinfo,
-                                                         											}) 
-                                                         											_this.true_name=res.data.userinfo.true_name
-                                                         											_this.disable=true
-                                                         										} else{ 
-                                                         											_this.disable=false
-                                                         										}
-                                                         										
-                                                         									})
-                                                         								},
-                                                         								fail(err) {
-                                                         									// console.log(err)
-                                                         								}
-                                                         							})
-                                                         						}
-                                                         					}
-                                                         				})
-                                                         			}
-                                                         		}
-                                                         	})
-                                                         
-                                                         }, */
-    bindgetuserinfo: function bindgetuserinfo(e, i) {var _this2 = this;
+    get_get_team_location: function get_get_team_location() {var _this = this;
+      this.$api.
+      get_team_location({
+        classid: this.class_id }).
+
+      then(function (res) {
+        console.log('get_team_location', res);
+        _this.school_id = res.data.school_id;
+        _this.province_id = res.data.area.province_id;
+        _this.city_id = res.data.area.city_id;
+        _this.area_id = res.data.area.area_id;
+        _this.grade_ids = res.data.grade_id;
+        _this.team_ids = res.data.id;
+        console.log('if (!res.data.isbind)', _this.school_id);
+      });
+    },
+    get_wx_login: function get_wx_login() {var _this2 = this;
+      uni.login({
+        success: function success(res) {
+          _this2.code = res.code;
+          _this2.get_get_team_location();
+          _this2.get_student_login();
+        } });
+
+    },
+    get_bind_info: function get_bind_info() {
+      this.$api.
+      bind_info({
+        school_id: this.school_id,
+        province_id: this.province_id,
+        city_id: this.city_id,
+        area_id: this.area_id,
+        grade_ids: this.grade_ids,
+        team_ids: this.team_ids,
+        true_name: this.true_name,
+        user_id: this.user_id }).
+
+      then(function (reslove) {
+        console.log('bind_info', reslove);
+        uni.switchTab({
+          url: '/pages/index/index' });
+
+      });
+    },
+    get_student_login: function get_student_login() {var _this3 = this;
+      var data = {
+        code: this.code };
+
+      this.$api.student_login(data).then(function (res) {
+        _this3.openid_tmp = res.data.openid;
+        console.log(_this3.openid_tmp);
+        if (res.code == 200) {
+          _this3.user_id = res.data.user_id;
+          uni.setStorage({
+            key: 'userinfo_tmp',
+            data: res.data });
+
+          uni.setStorage({
+            key: 'token',
+            data: res.data.token });
+
+          uni.setStorage({
+            key: 'userInfo',
+            data: res.data });
+
+          _this3.true_name = res.data.true_name;
+          _this3.disable = true;
+        } else {
+          _this3.disable = false;
+        }
+      });
+    },
+    bindgetuserinfo: function bindgetuserinfo(e, i) {
+      uni.setStorage({
+        key: 'type',
+        data: i });
+
+      console.log('bindgetuserinfo', e);
       if (!this.true_name) {
         uni.showToast({
           title: '请输入真实姓名',
@@ -246,89 +262,7 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
 
         return;
       }
-      uni.login({
-        success: function success(res) {
-          var _this = _this2;
-          _this.code = res.code;
-          if (res.code) {
-            uni.getSetting({
-              //查看用户是否授权
-              success: function success(res) {
-                console.log('res.authSetting', res.authSetting);
-                if (res.authSetting['scope.userInfo']) {
-                  //用户已经授权
-                  uni.getUserInfo({
-                    //获取用户信息
-                    success: function success(res) {
-                      console.log(res);
-                      var data = {
-                        code: _this.code,
-                        token: _this.token };
-
-                      _this.$api.share_login(data).
-                      then(function (res) {
-                        _this.openid_tmp = res.data.openid;
-                        console.log(_this.openid_tmp);
-                        if (res.code == 200) {
-                          uni.setStorage({
-                            key: 'userinfo_tmp',
-                            data: res.data.userinfo });
-
-                          _this.true_name = res.data.userinfo.true_name;
-                          _this.disable = true;
-
-                          _this.joinTeam(e, i);
-                        } else {
-                          _this.disable = false;
-                        }
-
-                      });
-                    },
-                    fail: function fail(err) {
-                      // console.log(err)
-                    } });
-
-                }
-              } });
-
-          }
-        } });
-
-    },
-    joinTeam: function joinTeam(e, i) {var _this3 = this;
-      var data = {
-        code: this.code,
-        user_name: e.detail.userInfo.nickName,
-        avatar: e.detail.userInfo.avatarUrl,
-        gender: e.detail.userInfo.gender,
-        user_type: i,
-        classid: this.class_id,
-        // classid:"C1020379",
-        openid: this.openid_tmp,
-        true_name: this.true_name };
-
-      console.log(data);
-      this.$api.join_team(data).
-      then(function (res) {
-        if (res.code == 200) {
-          _this3.login(res.data);
-          uni.showToast({
-            title: res.msg,
-            icon: 'none' });
-
-          setTimeout(function () {
-            uni.switchTab({
-              url: '/pages/index/index' });
-
-          }, 1000);
-
-        } else {
-          uni.showToast({
-            title: res.msg,
-            icon: 'none' });
-
-        }
-      });
+      this.get_bind_info();
     } }) };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

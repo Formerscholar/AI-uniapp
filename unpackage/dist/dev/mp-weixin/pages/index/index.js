@@ -268,6 +268,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _vuex = __webpack_require__(/*! vuex */ 6);
 var _common = __webpack_require__(/*! @/common/common.js */ 21); //
 //
@@ -397,16 +398,13 @@ var _common = __webpack_require__(/*! @/common/common.js */ 21); //
 //
 //
 //
+// let app = getApp()
 var _default = { data: function data() {return { title: 'Hello', type: 4, banner_list: '', token: '', teacher_info: {}, student_info: {}, is_vip: '' };}, onLoad: function onLoad() {// if(uni.getStorageSync('userInfo').is_bind==0&&uni.getStorageSync('type')==4){
     // 	uni.navigateTo({
     // 		url:'/pages/login/bindinfo'
     // 	})
     // }
-    this.token = uni.getStorageSync('token');if (this.token == '') {uni.navigateTo({ url: '/pages/login/login' });}if (uni.getStorageSync('token') && uni.getStorageSync('type') == 3) {this.get_teacher();}if (uni.getStorageSync('token') && uni.getStorageSync('type') == 4) {this.get_student();} // this.$api.get_settings('get').then(res => {
-    // 	console.log(res);
-    // 	getApp().globalData.settings = res.data;
-    // });
-  }, onShow: function onShow() {this.type = uni.getStorageSync('type');if (uni.getStorageSync('type') == 3) {uni.setTabBarItem({ index: 1, text: '我的试卷', iconPath: '/static/imgs/icon/myPaper1.png', selectedIconPath: '/static/imgs/icon/myPaper.png' });} else {uni.setTabBarItem({ index: 1, text: '错题本', iconPath: '/static/imgs/icon/cuotiben1.png', selectedIconPath: '/static/imgs/icon/cuotiben.png' });}if (uni.getStorageSync('token') && uni.getStorageSync('type') == 3) {this.get_teacher();}if (uni.getStorageSync('token') && uni.getStorageSync('type') == 4) {this.get_student();}this.get_banner();console.log(this.type);if (uni.getStorageSync('is_vip')) {this.is_vip = uni.getStorageSync('is_vip');}}, computed: {// ...mapState(['type'])
+    this.token = uni.getStorageSync('token');if (this.token == '') {uni.navigateTo({ url: '/pages/login/login' });}if (uni.getStorageSync('token') && uni.getStorageSync('type') == 3) {this.get_teacher();}if (uni.getStorageSync('token') && uni.getStorageSync('type') == 4) {this.get_student();}}, onShow: function onShow() {this.type = uni.getStorageSync('type');if (uni.getStorageSync('type') == 3) {uni.setTabBarItem({ index: 1, text: '我的试卷', iconPath: '/static/imgs/icon/myPaper1.png', selectedIconPath: '/static/imgs/icon/myPaper.png' });} else {uni.setTabBarItem({ index: 1, text: '错题本', iconPath: '/static/imgs/icon/cuotiben1.png', selectedIconPath: '/static/imgs/icon/cuotiben.png' });}if (uni.getStorageSync('token') && uni.getStorageSync('type') == 3) {this.get_teacher();}if (uni.getStorageSync('token') && uni.getStorageSync('type') == 4) {this.get_student();}this.get_banner();console.log(this.type);if (uni.getStorageSync('is_vip')) {this.is_vip = uni.getStorageSync('is_vip');}}, computed: {// ...mapState(['type'])
   }, methods: { uploadPaper: function uploadPaper() {uni.navigateTo({ url: '/pages/person/mineUploadPaper?id=1' });}, toclassinfo: function toclassinfo() {uni.navigateTo({ url: '/pages/person/classInfo' });}, //获取学生信息
     get_student: function get_student() {var _this2 = this;var _this = this;_this.$api.student_index({ token: _this.token }).then(function (res) {console.log(res);_this.student_info = res.data;_this.is_vip = res.data.is_vip;uni.setStorage({ key: 'is_vip', data: _this2.is_vip });});}, //获取老师信息
     get_teacher: function get_teacher() {var _this3 = this;this.$api.teacher_index({ token: this.token }).then(function (res) {console.log(res);_this3.teacher_info = res.data;});}, get_banner: function get_banner() {var _this4 = this;this.$api.banner({ type: this.type }).then(function (res) {console.log(res);_this4.banner_list = res.data.banner_list;});}, todetail: function todetail(i) {var url = '';if (i == 0) {url = '/pages/myteaching/myteachingPhoto?from=1';} else if (i == 1) {url = '/pages/myteaching/contentReference';} else if (i == 2) {url = '/pages/myPaper/myPaper';} else if (i == 3) {uni.switchTab({ url: '/pages/errorBook/errorBook' });} else if (i == 4) {// url=de_vip(this.is_vip,'学情报告','/pages/learningReport/learningReport')

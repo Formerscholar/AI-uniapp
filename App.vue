@@ -3,12 +3,12 @@ export default {
 	globalData: {
 		settings: {}
 	},
-	onLaunch: () => {},
-	onShow: function() {
+	onLaunch: function() {
 		this.$api.get_settings('get').then(res => {
-			getApp().globalData.settings = res.data;
+			this.globalData.settings = res.data;
 		});
 	},
+	onShow: function() {},
 	onHide: function() {}
 };
 </script>

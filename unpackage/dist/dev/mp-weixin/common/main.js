@@ -101,12 +101,12 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   globalData: {
     settings: {} },
 
-  onLaunch: function onLaunch() {},
-  onShow: function onShow() {var _this = this;
+  onLaunch: function onLaunch() {var _this = this;
     this.$api.get_settings('get').then(function (res) {
       _this.globalData.settings = res.data;
     });
   },
+  onShow: function onShow() {},
   onHide: function onHide() {} };exports.default = _default;
 
 /***/ }),

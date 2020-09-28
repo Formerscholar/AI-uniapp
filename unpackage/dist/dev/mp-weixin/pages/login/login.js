@@ -160,11 +160,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
 var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var uniPopup = function uniPopup() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup.vue */ 311));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
 
 
 
@@ -179,103 +176,85 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
       user_id: '',
       userInfo: {},
       sessionkey: '',
-      openid: '' };
+      openid: '',
+      code: '' };
 
   },
-  onLoad: function onLoad() {
+  onLoad: function onLoad() {var _this = this;
+    uni.login({
+      success: function success(res) {
+        _this.code = res.code;
+      } });
 
   },
   methods: _objectSpread(_objectSpread({},
   (0, _vuex.mapMutations)(['login', 'set_type'])), {}, {
-    setlogin: function setlogin(i) {
-      this.type = i;
-      this.loginmode = i;
-      this.set_type(i);
+    bindgetuserinfo: function bindgetuserinfo(e, i) {var _this2 = this;
       uni.setStorage({
         key: 'type',
         data: i });
 
-      console.log(this.$store.state.type);
-    },
-    bindgetuserinfo: function bindgetuserinfo(e, i) {var _this = this;
-      // this.$refs.popup.open()
-      uni.setStorage({
-        key: 'type',
-        data: i });
+      uni.setStorageSync('info', e.detail.userInfo); //头像  姓名
+      if (i == 3) {
+        this.$api.teacher_login({
+          code: this.code }).
 
-      uni.login({
-        success: function success(res) {
-          _this.code = res.code;
-          uni.setStorageSync('info', e.detail.userInfo); //头像  姓名
-          var code = res.code;
-          var data = {
-            code: code,
-            user_name: e.detail.userInfo.nickName,
-            avatar: e.detail.userInfo.avatarUrl,
-            gender: e.detail.userInfo.gender };
+        then(function (res) {
+          _this2.sessionkey = res.data.session_key;
+          _this2.openid = res.data.openid;
+          console.log('res.data.data ', res.data);
+          if (res.code == 200) {
+            _this2.login(res.data);
+            uni.setStorage({ //缓存用户登陆状态
+              key: 'userInfo',
+              data: res.data });
 
-          _this.userInfo = _objectSpread({}, e.detail.userInfo);
-          if (i == 3) {
-            _this.$api.teacher_login(data).
-            then(function (res) {
-              _this.sessionkey = res.data.session_key;
-              _this.openid = res.data.openid;
-              console.log('res.data.data ', res.data);
-              if (res.code == 200) {
-                _this.login(res.data);
-                uni.setStorage({ //缓存用户登陆状态
-                  key: 'userInfo',
-                  data: res.data });
+            uni.reLaunch({
+              url: '/pages/index/index' });
 
-                uni.reLaunch({
-                  url: '/pages/index/index' });
-
-                // this.user_id=res.data.user_id 
-              } else {
-                uni.setStorage({
-                  key: 'openid',
-                  data: res.data.openid });
-
-                _this.$refs.popup.open();
-              }
-            });
-
+            // this.user_id=res.data.user_id 
           } else {
-            console.log('学生登录');
-            _this.$api.student_login(data).
-            then(function (res) {
-              _this.session_key = res.data.session_key;
-              console.log('res', res);
-              if (res.code == 200) {
-                _this.login(res.data);
-                uni.setStorage({
-                  key: 'is_vip',
-                  data: res.data.is_vip });
+            uni.setStorage({
+              key: 'openid',
+              data: res.data.openid });
 
-                if (!res.data.is_bind) {
-                  uni.navigateTo({
-                    url: '/pages/login/bindinfo' });
-
-                } else {
-                  uni.reLaunch({
-                    url: '/pages/index/index' });
-
-                }
-
-              } else {
-                uni.showToast({
-                  title: res.msg,
-                  icon: 'none' });
-
-              }
-            });
+            _this2.$refs.popup.open();
           }
-        } });
+        });
+      } else {
+        console.log('学生登录');
+        this.$api.student_login({
+          code: this.code }).
 
+        then(function (res) {
+          _this2.session_key = res.data.session_key;
+          console.log('res', res);
+          if (res.code == 200) {
+            _this2.login(res.data);
+            uni.setStorage({
+              key: 'is_vip',
+              data: res.data.is_vip });
+
+            if (!res.data.is_bind) {
+              uni.navigateTo({
+                url: '/pages/login/bindinfo' });
+
+            } else {
+              uni.reLaunch({
+                url: '/pages/index/index' });
+
+            }
+          } else {
+            uni.showToast({
+              title: res.msg,
+              icon: 'none' });
+
+          }
+        });
+      }
       console.log(e);
     },
-    //获取手机号
-    getphone: function getphone(e) {var _this2 = this;
+    getphone: function getphone(e) {var _this3 = this;
       console.log(e);
       var data = {
         code: this.code,
@@ -290,7 +269,7 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
       this.$api.get_mobile(data).
       then(function (res) {
         if (res.code == 200) {
-          _this2.login(res.data);
+          _this3.login(res.data);
           uni.reLaunch({
             url: '/pages/index/index' });
 
@@ -308,9 +287,6 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
         }
         console.log(res);
       });
-    },
-    getuserinfo: function getuserinfo(e) {
-      console.log(e);
     } }) };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
