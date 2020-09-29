@@ -194,8 +194,11 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
         key: 'type',
         data: i });
 
+      console.log('bindgetuserinfo', e);
+      this.userInfo = e.detail.userInfo;
       uni.setStorageSync('info', e.detail.userInfo); //头像  姓名
       if (i == 3) {
+        console.log(this.userInfo);
         this.$api.teacher_login({
           code: this.code }).
 
@@ -224,7 +227,16 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
       } else {
         console.log('学生登录');
         this.$api.student_login({
-          code: this.code }).
+          code: this.code,
+          openId: this.userInfo.openId,
+          nickName: this.userInfo.nickName,
+          gender: this.userInfo.gender,
+          city: this.userInfo.city,
+          province: this.userInfo.province,
+          country: this.userInfo.country,
+          avatarUrl: this.userInfo.avatarUrl,
+          unionId: this.userInfo.unionId,
+          watermark: this.userInfo.watermark }).
 
         then(function (res) {
           _this2.session_key = res.data.session_key;

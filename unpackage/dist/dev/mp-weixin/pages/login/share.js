@@ -159,6 +159,7 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
       teacher_name: '',
       disable: false,
       token: '',
+      userInfo: {},
       code: '' };
 
   },
@@ -212,7 +213,10 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
         grade_ids: this.grade_ids,
         team_ids: this.team_ids,
         true_name: this.true_name,
-        user_id: this.user_id }).
+        user_id: this.user_id,
+        user_name: this.userInfo.nickName,
+        avatar: this.userInfo.avatarUrl,
+        gender: this.userInfo.gender }).
 
       then(function (reslove) {
         console.log('bind_info', reslove);
@@ -223,7 +227,16 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
     },
     get_student_login: function get_student_login() {var _this3 = this;
       var data = {
-        code: this.code };
+        code: this.code,
+        openId: this.userInfo.openId,
+        nickName: this.userInfo.nickName,
+        gender: this.userInfo.gender,
+        city: this.userInfo.city,
+        province: this.userInfo.province,
+        country: this.userInfo.country,
+        avatarUrl: this.userInfo.avatarUrl,
+        unionId: this.userInfo.unionId,
+        watermark: this.userInfo.watermark };
 
       this.$api.student_login(data).then(function (res) {
         _this3.openid_tmp = res.data.openid;
@@ -255,6 +268,7 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
         data: i });
 
       console.log('bindgetuserinfo', e);
+      this.userInfo = e.detail.userInfo;
       if (!this.true_name) {
         uni.showToast({
           title: '请输入真实姓名',

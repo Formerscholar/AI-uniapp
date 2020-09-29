@@ -143,12 +143,6 @@ export default {
 		};
 	},
 	onLoad() {
-		// if(uni.getStorageSync('userInfo').is_bind==0&&uni.getStorageSync('type')==4){
-		// 	uni.navigateTo({
-		// 		url:'/pages/login/bindinfo'
-		// 	})
-		// }
-
 		this.token = uni.getStorageSync('token');
 		if (this.token == '') {
 			uni.navigateTo({
@@ -178,12 +172,6 @@ export default {
 				iconPath: '/static/imgs/icon/cuotiben1.png',
 				selectedIconPath: '/static/imgs/icon/cuotiben.png'
 			});
-		}
-		if (uni.getStorageSync('token') && uni.getStorageSync('type') == 3) {
-			this.get_teacher();
-		}
-		if (uni.getStorageSync('token') && uni.getStorageSync('type') == 4) {
-			this.get_student();
 		}
 		this.get_banner();
 		console.log(this.type);
@@ -310,8 +298,8 @@ page {
 }
 .flex {
 	display: flex;
-	flex-flow: row nowrap;
-	justify-content: flex-start;
+	justify-content: space-between;
+	align-content: center;
 }
 .teacher {
 	margin: 25rpx;
@@ -419,18 +407,21 @@ page {
 }
 .student {
 	.item.itemSpec0 {
+		flex: 1;
+		height: 160rpx;
 		margin: 0 25rpx 25rpx 25rpx;
 	}
 	.item.itemSpec {
+		flex: 1;
+		height: 160rpx;
 		margin: 0 25rpx 25rpx 0;
 	}
 	.item.itemPhoto {
 		width: 700rpx;
 		display: flex;
-		flex-flow: row nowrap;
-		justify-content: flex-start;
+		justify-content: center;
+		align-items: center;
 		.title {
-			margin-top: 80rpx;
 			text:last-child {
 				width: auto;
 			}
@@ -438,13 +429,11 @@ page {
 		image {
 			width: 124rpx;
 			height: 100rpx;
-			margin: 80rpx 35rpx 0 140rpx;
 		}
 	}
 	.item {
 		position: relative;
-		height: 250rpx;
-		width: 337rpx;
+		height: 219rpx;
 		background-color: #fff;
 		margin: 25rpx;
 		border-radius: 20rpx;

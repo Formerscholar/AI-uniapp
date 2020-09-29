@@ -163,8 +163,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var uniPopup = function uniPopup() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup.vue */ 311));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 {
   components: { uniPopup: uniPopup },
@@ -192,7 +190,7 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
       openid: '' };
 
   },
-  onLoad: function onLoad(options) {var _this = this;
+  onLoad: function onLoad(options) {
     console.log('options', options);
     this.id = options.id;
     this.name = options.name;
@@ -202,19 +200,15 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
     this.team_id = options.team_id;
     this.get_get_team_location();
     this.get_team_subject();
-    uni.login({
-      success: function success(res) {
-        _this.code = res.code;
-        _this.get_teacher_login();
-      } });
-
+    this.get_teacher_login();
   },
   methods: _objectSpread(_objectSpread({},
   (0, _vuex.mapMutations)(['login', 'set_type'])), {}, {
-    getphone: function getphone(e) {var _this2 = this;
+    getphone: function getphone(e) {var _this = this;
       this.$refs.popup.close();
-      console.log(e);
-      this.$api.get_mobile({
+      console.log('getphone', e);
+      this.$api.
+      get_mobile({
         code: this.code,
         iv: e.detail.iv,
         encryptedData: e.detail.encryptedData,
@@ -223,47 +217,54 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
         user_name: this.user_info.nickName,
         avatar: this.user_info.avatarUrl,
         gender: this.user_info.gender }).
+
       then(function (res) {
-        _this2.mobile = res.data.mobile;
+        console.log(res);
+        _this.mobile = res.data.mobile;
+        _this.subject_id = res.data.subject_id;
         if (res.code == 200) {
           console.log(res.data);
+          _this.login(res.data);
+          _this.joinTeam();
+        } else {
+          _this.get_teacher_bind_info();
+        }
+      });
+    },
+    get_teacher_bind_info: function get_teacher_bind_info() {var _this2 = this;
+      this.$api.
+      teacher_bind_info({
+        province_id: this.province_id,
+        city_id: this.city_id,
+        area_id: this.area_id,
+        school_id: this.school,
+        subject_id: this.subject_id,
+        true_name: this.true_name,
+        mobile: this.mobile,
+        openid: this.openid,
+        nickName: this.user_info.nickName,
+        avatar: this.user_info.avatarUrl,
+        gender: this.user_info.gender }).
+
+      then(function (res) {
+        console.log(res);
+        if (res.code == 200) {
           _this2.login(res.data);
           _this2.joinTeam();
-          uni.reLaunch({
-            url: '/pages/index/index' });
-
         } else {
-          var data = {
-            province_id: _this2.province_id,
-            city_id: _this2.city_id,
-            area_id: _this2.area_id,
-            school_id: _this2.school,
-            subject_id: _this2.subject_id,
-            true_name: _this2.true_name,
-            mobile: _this2.mobile,
-            openid: _this2.openid,
-            nickName: _this2.user_info.nickName,
-            avatar: _this2.user_info.avatarUrl,
-            gender: _this2.user_info.gender };
+          uni.showToast({
+            title: res.msg,
+            icon: 'none' });
 
-          _this2.$api.teacher_bind_info(data).then(function (res) {
-            console.log(res);
-            if (res.code == 200) {
-              _this2.login(res.data);
-              _this2.joinTeam();
-            } else {
-              uni.showToast({
-                title: res.msg,
-                icon: 'none' });
-
-            }
-          });
         }
-        console.log(res);
       });
     },
     bindgetuserinfo: function bindgetuserinfo(e, i) {
       this.user_info = e.detail.userInfo;
+      uni.setStorage({
+        key: 'type',
+        data: i });
+
       if (!this.true_name) {
         uni.showToast({
           title: '请输入真实姓名',
@@ -278,46 +279,67 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
 
         return;
       }
-      this.get_teacher_login();
+      if (this.disable) {
+        this.joinTeam();
+      } else {
+        this.$refs.popup.open();
+      }
     },
     get_teacher_login: function get_teacher_login() {var _this3 = this;
-      this.$api.teacher_login({
-        code: this.code }).
-      then(function (res) {
-        console.log('get_teacher_login', res);
-        _this3.sessionkey = res.data.session_key;
-        _this3.openid = res.data.openid;
-        if (res.code == 200) {
-          uni.setStorage({
-            key: 'userinfo_tmp',
-            data: res.data });
+      uni.login({
+        success: function success(res) {
+          _this3.code = res.code;
+          _this3.$api.
+          teacher_login({
+            code: _this3.code,
+            openId: _this3.user_info.openId,
+            nickName: _this3.user_info.nickName,
+            gender: _this3.user_info.gender,
+            city: _this3.user_info.city,
+            province: _this3.user_info.province,
+            country: _this3.user_info.country,
+            avatarUrl: _this3.user_info.avatarUrl,
+            unionId: _this3.user_info.unionId,
+            watermark: _this3.user_info.watermark }).
 
-          uni.setStorage({
-            key: 'token',
-            data: res.data.token });
+          then(function (res) {
+            console.log('get_teacher_login', res);
+            _this3.sessionkey = res.data.session_key;
+            _this3.openid = res.data.openid;
+            if (res.code == 200) {
+              uni.setStorage({
+                key: 'userinfo_tmp',
+                data: res.data });
 
-          uni.setStorage({
-            key: 'userInfo',
-            data: res.data });
+              uni.setStorage({
+                key: 'userInfo',
+                data: res.data });
 
-          _this3.true_name = res.data.true_name;
-          // this.subject_id = res.data.subject_id;
-          _this3.subject_title = res.data.subject_title;
-          _this3.disable = true;
-          _this3.joinTeam();
-        } else {
-          _this3.$refs.popup.open();
-          _this3.disable = false;
-        }
-      });
+              _this3.user_info = res.data;
+              _this3.mobile = res.data.mobile;
+              _this3.true_name = res.data.true_name;
+              _this3.subject_id = res.data.subject_id;
+              _this3.subject_list.map(function (item) {
+                if (item.id == _this3.subject_id) {
+                  _this3.num = item.sort - 1;
+                }
+              });
+              _this3.subject_title = res.data.subject_title;
+              _this3.disable = true;
+            } else {
+              _this3.disable = false;
+            }
+          });
+        } });
+
     },
     joinTeam: function joinTeam() {var _this4 = this;
-      var data = {
+      this.$api.
+      ter_join_team({
         classid: this.class_id,
-        subject_id: this.subject_id };
+        subject_id: this.subject_id }).
 
-      console.log(data);
-      this.$api.ter_join_team(data).then(function (res) {
+      then(function (res) {
         if (res.code == 200) {
           _this4.login(res.data);
           uni.showToast({
@@ -351,7 +373,7 @@ var _vuex = __webpack_require__(/*! vuex */ 6);function ownKeys(object, enumerab
       });
     },
     get_team_subject: function get_team_subject(e) {var _this6 = this;
-      this.$api.get_team_subject({ team_id: this.team_id }).then(function (res) {
+      this.$api.subject({ team_id: this.team_id }).then(function (res) {
         _this6.subject_list = res.data;
       });
     },

@@ -15,7 +15,6 @@
 				<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/bg/down.png" mode=""></image>
 			</picker>
 			<button open-type="getUserInfo" @getuserinfo="bindgetuserinfo($event, 3)">确认加入</button>
-
 			<uni-popup ref="popup" type="center">
 				<view class="bindphone">
 					<view class="">需要授权获取手机号</view>
@@ -28,7 +27,6 @@
 
 <script>
 import uniPopup from '@/components/uni-popup/uni-popup.vue';
-
 import { mapState, mapMutations } from 'vuex';
 export default {
 	components: { uniPopup },
@@ -66,68 +64,71 @@ export default {
 		this.team_id = options.team_id;
 		this.get_get_team_location();
 		this.get_team_subject();
-		uni.login({
-			success: res => {
-				this.code = res.code;
-				this.get_teacher_login()
-			}
-		});
+		this.get_teacher_login();
 	},
 	methods: {
 		...mapMutations(['login', 'set_type']),
 		getphone(e) {
 			this.$refs.popup.close();
-			console.log(e);
-			this.$api.get_mobile({
-				code: this.code,
-				iv: e.detail.iv,
-				encryptedData: e.detail.encryptedData,
-				sessionkey: this.sessionkey,
-				openid: this.openid,
-				user_name: this.user_info.nickName,
-				avatar: this.user_info.avatarUrl,
-				gender: this.user_info.gender
-			}).then(res => {
-				this.mobile = res.data.mobile;
-				if (res.code == 200) {
-					console.log(res.data);
-					this.login(res.data);
-					this.joinTeam();
-					uni.reLaunch({
-						url: '/pages/index/index'
-					});
-				} else {
-					let data = {
-						province_id: this.province_id,
-						city_id: this.city_id,
-						area_id: this.area_id,
-						school_id: this.school,
-						subject_id: this.subject_id,
-						true_name: this.true_name,
-						mobile: this.mobile,
-						openid: this.openid,
-						nickName: this.user_info.nickName,
-						avatar: this.user_info.avatarUrl,
-						gender: this.user_info.gender
-					};
-					this.$api.teacher_bind_info(data).then(res => {
-						console.log(res);
-						if (res.code == 200) {
-							this.login(res.data);
-							this.joinTeam();
-						} else {
-							uni.showToast({
-								title: res.msg,
-								icon: 'none'
-							});
-						}
-					});
-				}
-				console.log(res);
-			});
+			console.log('getphone', e);
+			this.$api
+				.get_mobile({
+					code: this.code,
+					iv: e.detail.iv,
+					encryptedData: e.detail.encryptedData,
+					sessionkey: this.sessionkey,
+					openid: this.openid,
+					user_name: this.user_info.nickName,
+					avatar: this.user_info.avatarUrl,
+					gender: this.user_info.gender
+				})
+				.then(res => {
+					console.log(res);
+					this.mobile = res.data.mobile;
+					this.subject_id = res.data.subject_id;
+					if (res.code == 200) {
+						console.log(res.data);
+						this.login(res.data)
+						this.joinTeam();
+					}else{
+						this.get_teacher_bind_info()
+					}
+				});
+		},
+		get_teacher_bind_info() {
+			this.$api
+				.teacher_bind_info({
+					province_id: this.province_id,
+					city_id: this.city_id,
+					area_id: this.area_id,
+					school_id: this.school,
+					subject_id: this.subject_id,
+					true_name: this.true_name,
+					mobile: this.mobile,
+					openid: this.openid,
+					nickName: this.user_info.nickName,
+					avatar: this.user_info.avatarUrl,
+					gender: this.user_info.gender
+				})
+				.then(res => {
+					console.log(res);
+					if (res.code == 200) {
+						this.login(res.data)
+						this.joinTeam();
+					} else {
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						});
+					}
+				});
 		},
 		bindgetuserinfo(e, i) {
 			this.user_info = e.detail.userInfo;
+			uni.setStorage({
+				key: 'type',
+				data: i
+			});
 			if (!this.true_name) {
 				uni.showToast({
 					title: '请输入真实姓名',
@@ -142,64 +143,85 @@ export default {
 				});
 				return;
 			}
-			this.get_teacher_login()
+			if (this.disable) {
+				this.joinTeam();
+			} else {
+				this.$refs.popup.open();
+			}
 		},
-		get_teacher_login(){
-			this.$api.teacher_login({
-				code: this.code,
-			}).then(res => {
-				console.log('get_teacher_login',res)
-				this.sessionkey = res.data.session_key;
-				this.openid = res.data.openid;
-				if (res.code == 200) {
-					uni.setStorage({
-						key: 'userinfo_tmp',
-						data: res.data
-					});
-					uni.setStorage({
-						key: 'token',
-						data: res.data.token
-					});
-					uni.setStorage({
-						key: 'userInfo',
-						data: res.data
-					});
-					this.true_name = res.data.true_name;
-					// this.subject_id = res.data.subject_id;
-					this.subject_title = res.data.subject_title;
-					this.disable = true;
-					this.joinTeam();
-				} else {
-					this.$refs.popup.open();
-					this.disable = false;
+		get_teacher_login() {
+			uni.login({
+				success: res => {
+					this.code = res.code;
+					this.$api
+						.teacher_login({
+							code: this.code,
+							openId: this.user_info.openId,
+							nickName: this.user_info.nickName,
+							gender: this.user_info.gender,
+							city: this.user_info.city,
+							province: this.user_info.province,
+							country: this.user_info.country,
+							avatarUrl: this.user_info.avatarUrl,
+							unionId: this.user_info.unionId,
+							watermark: this.user_info.watermark
+						})
+						.then(res => {
+							console.log('get_teacher_login', res);
+							this.sessionkey = res.data.session_key;
+							this.openid = res.data.openid;
+							if (res.code == 200) {
+								uni.setStorage({
+									key: 'userinfo_tmp',
+									data: res.data
+								});
+								uni.setStorage({
+									key: 'userInfo',
+									data: res.data
+								});
+								this.user_info = res.data;
+								this.mobile = res.data.mobile;
+								this.true_name = res.data.true_name;
+								this.subject_id = res.data.subject_id;
+								this.subject_list.map(item => {
+									if (item.id == this.subject_id) {
+										this.num = item.sort - 1;
+									}
+								});
+								this.subject_title = res.data.subject_title;
+								this.disable = true;
+							} else{
+								this.disable = false;
+							}
+						});
 				}
 			});
 		},
 		joinTeam() {
-			let data = {
-				classid: this.class_id,
-				subject_id: this.subject_id
-			};
-			console.log(data);
-			this.$api.ter_join_team(data).then(res => {
-				if (res.code == 200) {
-					this.login(res.data);
-					uni.showToast({
-						title: res.msg,
-						icon: 'none'
-					});
-					setTimeout(() => {
-						uni.switchTab({
-							url: '/pages/index/index'
+			this.$api
+				.ter_join_team({
+					classid: this.class_id,
+					subject_id: this.subject_id
+				})
+				.then(res => {
+					if (res.code == 200) {
+						this.login(res.data);
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
 						});
-					}, 1000);
-				} else {
-					uni.showToast({
-						title: res.msg,
-						icon: 'none'
-					});
-				}
-			});
+						setTimeout(() => {
+							uni.switchTab({
+								url: '/pages/index/index'
+							});
+						}, 1000);
+					} else {
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						});
+					}
+				});
 		},
 		get_get_team_location() {
 			this.$api
@@ -215,7 +237,7 @@ export default {
 				});
 		},
 		get_team_subject(e) {
-			this.$api.get_team_subject({ team_id: this.team_id }).then(res => {
+			this.$api.subject({ team_id: this.team_id }).then(res => {
 				this.subject_list = res.data;
 			});
 		},

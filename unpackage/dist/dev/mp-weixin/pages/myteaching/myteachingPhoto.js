@@ -187,6 +187,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 {
   components: { uniPopup: uniPopup },
   data: function data() {
@@ -220,9 +222,7 @@ __webpack_require__.r(__webpack_exports__);
       this.my_textbook_list();
     }
   },
-  onShow: function onShow() {
-
-  },
+  onShow: function onShow() {},
   onLoad: function onLoad(option) {
     this.subject_fenlei();
     if (uni.getStorageSync('userInfo').token) {
@@ -230,13 +230,15 @@ __webpack_require__.r(__webpack_exports__);
     }
     console.log('option', option);
     this.from = option.from;
-    if (this.from == 1) {//首页拍照识题
+    if (this.from == 1) {
+      //首页拍照识题
       this.subtitle = '教辅';
       var _this = this;
       setTimeout(function () {
         _this.chooseTeaching(0);
       }, 1000);
-    } else if (this.from == 2) {//我的教辅详情
+    } else if (this.from == 2) {
+      //我的教辅详情
       this.subtitle = '当前教辅';
       this.obj = JSON.parse(option.obj);
       this.textbook_id = this.obj.textbook_id;
@@ -312,8 +314,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //教辅列表详情
     my_textbook_list: function my_textbook_list() {var _this4 = this;
-      this.$api.my_textbook_list({ token: this.token, type: this.type, subject_id: this.subject_id, page: this.page, page_size: 10 }).
-      then(function (res) {
+      this.$api.my_textbook_list({ token: this.token, type: this.type, subject_id: this.subject_id, page: this.page, page_size: 10 }).then(function (res) {
         if (res.code == 200) {
           _this4.is_more = res.is_more;
           if (_this4.page == 1) {
@@ -327,9 +328,9 @@ __webpack_require__.r(__webpack_exports__);
             _this4.textbook_list = [];
           }
           /* uni.showToast({
-            	title:res.msg,
-            	icon:'none'
-            }) */
+            		title:res.msg,
+            		icon:'none'
+            	}) */
         }
       });
       var _this = this;
@@ -361,8 +362,8 @@ __webpack_require__.r(__webpack_exports__);
               filePath: _this.img,
               name: 'file',
               formData: {
-                'token': _this.token,
-                'path': 'search' },
+                token: _this.token,
+                path: 'search' },
 
               success: function success(res) {
                 _this.pic = res.data;
@@ -372,33 +373,43 @@ __webpack_require__.r(__webpack_exports__);
                 }
                 // _this.search_exercises()
                 uni.navigateTo({
-                  url: '/pages/myteaching/myteachingPhoto_result?pic=' + _this.pic + '&textbook_id=' + _this.textbook_id + '&choosePage=' + _this.choosePage + '&title=' + _this.title + '&subject_name=' + _this.subject_name });
+                  url:
+                  '/pages/myteaching/myteachingPhoto_result?pic=' +
+                  _this.pic +
+                  '&textbook_id=' +
+                  _this.textbook_id +
+                  '&choosePage=' +
+                  _this.choosePage +
+                  '&title=' +
+                  _this.title +
+                  '&subject_name=' +
+                  _this.subject_name });
 
                 /* if(_this.from==1){
-                                                                                                                                                                                                                                   	_this.textbook_id=''
-                                                                                                                                                                                                                                   	_this.tpage=1
-                                                                                                                                                                                                                                   	_this.numArr=['第1页']
-                                                                                                                                                                                                                                   }
-                                                                                                                                                                                                                                   _this.index=0 */
+                                         		_this.textbook_id=''
+                                         		_this.tpage=1
+                                         		_this.numArr=['第1页']
+                                         	}
+                                         	_this.index=0 */
               },
               error: function error(e) {
                 /* if(_this.from==1){
-                                        	_this.textbook_id=''
-                                        	_this.tpage=1
-                                        	_this.numArr=['第1页']
-                                        }
-                                        _this.index=0 */
+                                        		_this.textbook_id=''
+                                        		_this.tpage=1
+                                        		_this.numArr=['第1页']
+                                        	}
+                                        	_this.index=0 */
               } });
 
           },
           fail: function fail(e) {
             console.log(e);
             /* if(_this.from==1){
-                            	_this.textbook_id=''
-                            	_this.tpage=1
-                            	_this.numArr=['第1页']
-                            }
-                            _this.index=0 */
+                            		_this.textbook_id=''
+                            		_this.tpage=1
+                            		_this.numArr=['第1页']
+                            	}
+                            	_this.index=0 */
           } });
 
       } else {
@@ -411,15 +422,15 @@ __webpack_require__.r(__webpack_exports__);
     }
     //获取题目数据
     /* search_exercises(){
-    	console.log(this.textbook_id)
-    	this.$api.search_exercises({textbook_id:this.textbook_id,page:this.choosePage,pic:this.pic,token:this.token})
-    	.then(res=>{
-    		console.log('res',res)
-    		uni.navigateTo({
-    			url:'/pages/myPaper/seePapers?status=photo&listData='+encodeURIComponent(JSON.stringify(res.data))+'&title='+this.title+'&subject_name='+this.subject_name
+    		console.log(this.textbook_id)
+    		this.$api.search_exercises({textbook_id:this.textbook_id,page:this.choosePage,pic:this.pic,token:this.token})
+    		.then(res=>{
+    			console.log('res',res)
+    			uni.navigateTo({
+    				url:'/pages/myPaper/seePapers?status=photo&listData='+encodeURIComponent(JSON.stringify(res.data))+'&title='+this.title+'&subject_name='+this.subject_name
+    			})
     		})
-    	})
-    } */ } };exports.default = _default;
+    	} */ } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
