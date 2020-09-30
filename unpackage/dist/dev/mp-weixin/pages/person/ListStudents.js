@@ -2,7 +2,7 @@
 
 /***/ 183:
 /*!**********************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/main.js?{"page":"pages%2Fperson%2FListStudents"} ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/main.js?{"page":"pages%2Fperson%2FListStudents"} ***!
   \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -18,7 +18,7 @@ createPage(_ListStudents.default);
 
 /***/ 184:
 /*!***************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/person/ListStudents.vue ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/person/ListStudents.vue ***!
   \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -59,7 +59,7 @@ component.options.__file = "pages/person/ListStudents.vue"
 
 /***/ 185:
 /*!**********************************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/person/ListStudents.vue?vue&type=template&id=baa19bf2& ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/person/ListStudents.vue?vue&type=template&id=baa19bf2& ***!
   \**********************************************************************************************/
 /*! exports provided: render, staticRenderFns, recyclableRender, components */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -81,7 +81,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 186:
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/AI错题宝/pages/person/ListStudents.vue?vue&type=template&id=baa19bf2& ***!
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/wxapp/pages/person/ListStudents.vue?vue&type=template&id=baa19bf2& ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns, recyclableRender, components */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -108,7 +108,7 @@ render._withStripped = true
 
 /***/ 187:
 /*!****************************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/person/ListStudents.vue?vue&type=script&lang=js& ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/person/ListStudents.vue?vue&type=script&lang=js& ***!
   \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -124,7 +124,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 188:
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/AI错题宝/pages/person/ListStudents.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/wxapp/pages/person/ListStudents.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -201,19 +201,15 @@ var _default =
     this.get_student_list();
   },
   computed: {},
-
-
   methods: {
     get_student_list: function get_student_list() {var _this = this;
-      this.$api.team_student_list({ token: this.token, team_id: this.team_id }).
-      then(function (res) {
+      this.$api.team_student_list({ token: this.token, team_id: this.team_id }).then(function (res) {
         console.log(res);
         if (res.code == 200) {
           console.log(res.data);
           _this.student = res.data.student;
           _this.teacher = res.data.teacher;
         } else {
-
         }
       });
     },
@@ -227,8 +223,7 @@ var _default =
               user_id: id };
 
             console.log(data);
-            _this2.$api.remove_student(data).
-            then(function (res) {
+            _this2.$api.remove_student(data).then(function (res) {
               if (res.code == 200) {
                 uni.showToast({
                   title: '删除成功' });
@@ -250,8 +245,7 @@ var _default =
         title: '确定删除吗？',
         success: function success(res) {
           if (res.confirm) {
-            _this3.$api.remove_team({ token: _this3.token, team_id: _this3.team_id }).
-            then(function (res) {
+            _this3.$api.remove_team({ token: _this3.token, team_id: _this3.team_id }).then(function (res) {
               console.log(res);
               if (res.code == 200) {
                 uni.showToast({
@@ -287,7 +281,7 @@ var _default =
 
 /***/ 189:
 /*!*************************************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/person/ListStudents.vue?vue&type=style&index=0&lang=scss& ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/person/ListStudents.vue?vue&type=style&index=0&lang=scss& ***!
   \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -303,7 +297,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 190:
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/AI错题宝/pages/person/ListStudents.vue?vue&type=style&index=0&lang=scss& ***!
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/wxapp/pages/person/ListStudents.vue?vue&type=style&index=0&lang=scss& ***!
   \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {

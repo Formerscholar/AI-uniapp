@@ -2,7 +2,7 @@
 
 /***/ 135:
 /*!**************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/main.js?{"page":"pages%2Fperson%2Fuser"} ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/main.js?{"page":"pages%2Fperson%2Fuser"} ***!
   \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -18,7 +18,7 @@ createPage(_user.default);
 
 /***/ 136:
 /*!*******************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/person/user.vue ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/person/user.vue ***!
   \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -59,7 +59,7 @@ component.options.__file = "pages/person/user.vue"
 
 /***/ 137:
 /*!**************************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/person/user.vue?vue&type=template&id=0a59c3dc& ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/person/user.vue?vue&type=template&id=0a59c3dc& ***!
   \**************************************************************************************/
 /*! exports provided: render, staticRenderFns, recyclableRender, components */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -81,7 +81,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 138:
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/AI错题宝/pages/person/user.vue?vue&type=template&id=0a59c3dc& ***!
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/wxapp/pages/person/user.vue?vue&type=template&id=0a59c3dc& ***!
   \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns, recyclableRender, components */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -108,7 +108,7 @@ render._withStripped = true
 
 /***/ 139:
 /*!********************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/person/user.vue?vue&type=script&lang=js& ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/person/user.vue?vue&type=script&lang=js& ***!
   \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -124,15 +124,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 140:
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/AI错题宝/pages/person/user.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/wxapp/pages/person/user.vue?vue&type=script&lang=js& ***!
   \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
 //
 //
 //
@@ -255,7 +253,7 @@ var _default =
             filePath: _this.img,
             name: 'file',
             formData: {
-              'token': _this.token },
+              token: _this.token },
 
             success: function success(res) {
               console.log('返回', res.data);
@@ -274,8 +272,7 @@ var _default =
     },
     //获取省市区
     get_location_list: function get_location_list() {var _this3 = this;
-      this.$api.get_location_list({ token: this.token }).
-      then(function (res) {
+      this.$api.get_location_list({ token: this.token }).then(function (res) {
         console.log(res);
         _this3.location = res.data;
       });
@@ -288,47 +285,39 @@ var _default =
         area_id: this.user_info.school_list.area_id,
         token: this.token };
 
-      this.$api.get_school(data).
-      then(function (res) {
+      this.$api.get_school(data).then(function (res) {
         console.log(res);
         if (res.data.length == 0) {
           _this4.school = [{ name: '该省市区没有学校' }];
         } else {
           _this4.school = res.data;
         }
-
-
       });
     },
     //获取年级
     get_grade: function get_grade() {var _this5 = this;
-      this.$api.get_grade({ token: this.token }).
-      then(function (res) {
+      this.$api.get_grade({ token: this.token }).then(function (res) {
         console.log(res);
         _this5.grade = res.data.grade_list;
-
       });
     },
     //获取用户信息
     getuserinfo: function getuserinfo() {var _this6 = this;
       if (uni.getStorageSync('type') == 4) {
-        this.$api.get_user_info({ token: this.token }).
-        then(function (res) {
+        this.$api.get_user_info({ token: this.token }).then(function (res) {
           console.log(res);
           _this6.user_info = res.data;
           _this6.img = res.data.avatar;
           _this6.getschool();
         });
       } else {
-        this.$api.get_teacher_info({ token: this.token }).
-        then(function (res) {
+        this.$api.get_teacher_info({ token: this.token }).then(function (res) {
           console.log(res);
           _this6.user_info = res.data;
           _this6.img = res.data.avatar;
           _this6.getschool();
         });
       }
-
     },
     //修改年级
     changeGrade: function changeGrade(e) {var _this7 = this;
@@ -408,7 +397,7 @@ var _default =
 
 /***/ 141:
 /*!*****************************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/person/user.vue?vue&type=style&index=0&lang=scss& ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/person/user.vue?vue&type=style&index=0&lang=scss& ***!
   \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -424,7 +413,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 142:
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/AI错题宝/pages/person/user.vue?vue&type=style&index=0&lang=scss& ***!
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/wxapp/pages/person/user.vue?vue&type=style&index=0&lang=scss& ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {

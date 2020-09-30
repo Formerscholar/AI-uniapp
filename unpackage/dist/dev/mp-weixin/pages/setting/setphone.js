@@ -2,7 +2,7 @@
 
 /***/ 223:
 /*!*******************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/main.js?{"page":"pages%2Fsetting%2Fsetphone"} ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/main.js?{"page":"pages%2Fsetting%2Fsetphone"} ***!
   \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -18,7 +18,7 @@ createPage(_setphone.default);
 
 /***/ 224:
 /*!************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/setting/setphone.vue ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/setting/setphone.vue ***!
   \************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -59,7 +59,7 @@ component.options.__file = "pages/setting/setphone.vue"
 
 /***/ 225:
 /*!*******************************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/setting/setphone.vue?vue&type=template&id=fda46bb8& ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/setting/setphone.vue?vue&type=template&id=fda46bb8& ***!
   \*******************************************************************************************/
 /*! exports provided: render, staticRenderFns, recyclableRender, components */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -81,7 +81,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 226:
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/AI错题宝/pages/setting/setphone.vue?vue&type=template&id=fda46bb8& ***!
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/wxapp/pages/setting/setphone.vue?vue&type=template&id=fda46bb8& ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns, recyclableRender, components */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -108,7 +108,7 @@ render._withStripped = true
 
 /***/ 227:
 /*!*************************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/setting/setphone.vue?vue&type=script&lang=js& ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/setting/setphone.vue?vue&type=script&lang=js& ***!
   \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -124,16 +124,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 228:
 /*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/AI错题宝/pages/setting/setphone.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/wxapp/pages/setting/setphone.vue?vue&type=script&lang=js& ***!
   \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
 //
 //
 //
@@ -186,7 +183,7 @@ var _default =
       var reg = /^1[2|3|4|5|8]\d{9,}/;
       if (!reg.test(this.new_mobile)) {
         uni.showToast({
-          title: "请输入正确的手机号",
+          title: '请输入正确的手机号',
           icon: 'none' });
 
         return;
@@ -194,7 +191,7 @@ var _default =
 
       if (!this.code2) {
         uni.showToast({
-          title: "请输入验证码",
+          title: '请输入验证码',
           icon: 'none' });
 
         return;
@@ -205,60 +202,59 @@ var _default =
         new_mobile: this.new_mobile,
         verify_code: this.code2 };
 
-      this.$api.change_mobile(data).
-      then(function (res) {
+      this.$api.change_mobile(data).then(function (res) {
         console.log(res);
         if (res.code == 200) {
           uni.showToast({
-            title: "修改成功！" });
+            title: '修改成功！' });
 
           setTimeout(function () {
             uni.navigateBack();
           }, 1000);
         } else {
           /* uni.showToast({
-                	title:res.msg,
-                	icon:'none'
-                }) */
+                		title:res.msg,
+                		icon:'none'
+                	}) */
         }
       });
     },
     del: function del(i) {
       if (i == 1) {
-        this.name = "";
+        this.name = '';
       } else if (i == 2) {
-        this.password = "";
+        this.password = '';
       } else if (i == 3) {
-        this.password2 = "";
+        this.password2 = '';
       }
     },
     /* getcode(){
-       	if(this.codeStatus){
-       		this.codeStatus=false
-       		this.$api.get_verify_code({token:this.token,type:'update',mobile:this.old_mobile})
-       		uni.showToast({
-       			title:"发送成功,请查看手机！",
-       			icon:'none'
-       		})
-       		
-       		var time=60
-       		var t=setInterval(()=>{
-       			time--					
-       			this.codeStr=time+'S'
-       			if(time<=0){
-       				this.codeStatus=true
-       				this.codeStr='获取验证码'
-       				clearInterval(t)
-       			}
-       		},1000)
-       	}		
-       }, */
+       		if(this.codeStatus){
+       			this.codeStatus=false
+       			this.$api.get_verify_code({token:this.token,type:'update',mobile:this.old_mobile})
+       			uni.showToast({
+       				title:"发送成功,请查看手机！",
+       				icon:'none'
+       			})
+       			
+       			var time=60
+       			var t=setInterval(()=>{
+       				time--					
+       				this.codeStr=time+'S'
+       				if(time<=0){
+       					this.codeStatus=true
+       					this.codeStr='获取验证码'
+       					clearInterval(t)
+       				}
+       			},1000)
+       		}		
+       	}, */
     getcode2: function getcode2() {var _this = this;
       if (this.codeStatus2) {
         this.codeStatus2 = false;
         this.$api.get_verify_code({ token: this.token, type: 'update', mobile: this.new_mobile });
         uni.showToast({
-          title: "发送成功,请查看手机！",
+          title: '发送成功,请查看手机！',
           icon: 'none' });
 
 
@@ -280,7 +276,7 @@ var _default =
 
 /***/ 229:
 /*!**********************************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/setting/setphone.vue?vue&type=style&index=0&lang=scss& ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/setting/setphone.vue?vue&type=style&index=0&lang=scss& ***!
   \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -296,7 +292,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 230:
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/AI错题宝/pages/setting/setphone.vue?vue&type=style&index=0&lang=scss& ***!
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/wxapp/pages/setting/setphone.vue?vue&type=style&index=0&lang=scss& ***!
   \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {

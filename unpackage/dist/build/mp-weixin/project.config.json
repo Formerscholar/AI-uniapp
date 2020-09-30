@@ -6,8 +6,8 @@
   "setting": {
     "urlCheck": true,
     "es6": false,
-    "enhance": true,
-    "postcss": false,
+    "enhance": false,
+    "postcss": true,
     "preloadBackgroundData": false,
     "minified": true,
     "newFeature": false,
@@ -28,7 +28,6 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "bundle": true,
     "useIsolateContext": true,
     "useCompilerModule": true,
     "userConfirmedUseCompilerModuleSwitch": false,

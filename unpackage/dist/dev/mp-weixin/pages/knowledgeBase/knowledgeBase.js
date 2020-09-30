@@ -2,7 +2,7 @@
 
 /***/ 40:
 /*!******************************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/main.js?{"page":"pages%2FknowledgeBase%2FknowledgeBase"} ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/main.js?{"page":"pages%2FknowledgeBase%2FknowledgeBase"} ***!
   \******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -18,7 +18,7 @@ createPage(_knowledgeBase.default);
 
 /***/ 41:
 /*!***********************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/knowledgeBase/knowledgeBase.vue ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/knowledgeBase/knowledgeBase.vue ***!
   \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -59,7 +59,7 @@ component.options.__file = "pages/knowledgeBase/knowledgeBase.vue"
 
 /***/ 42:
 /*!******************************************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/knowledgeBase/knowledgeBase.vue?vue&type=template&id=66302166& ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/knowledgeBase/knowledgeBase.vue?vue&type=template&id=66302166& ***!
   \******************************************************************************************************/
 /*! exports provided: render, staticRenderFns, recyclableRender, components */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -81,7 +81,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 43:
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/AI错题宝/pages/knowledgeBase/knowledgeBase.vue?vue&type=template&id=66302166& ***!
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/wxapp/pages/knowledgeBase/knowledgeBase.vue?vue&type=template&id=66302166& ***!
   \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns, recyclableRender, components */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -141,7 +141,7 @@ render._withStripped = true
 
 /***/ 44:
 /*!************************************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/knowledgeBase/knowledgeBase.vue?vue&type=script&lang=js& ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/knowledgeBase/knowledgeBase.vue?vue&type=script&lang=js& ***!
   \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -157,13 +157,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 45:
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/AI错题宝/pages/knowledgeBase/knowledgeBase.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/wxapp/pages/knowledgeBase/knowledgeBase.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var uParse = function uParse() {Promise.all(/*! require.ensure | components/u-parse/u-parse */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/u-parse/u-parse")]).then((function () {return resolve(__webpack_require__(/*! @/components/u-parse/u-parse.vue */ 318));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopup = function uniPopup() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup.vue */ 311));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
 
 
 
@@ -383,8 +388,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //获取班级
     get_grade: function get_grade() {var _this = this;
-      this.$api.get_grade({ token: this.token }).
-      then(function (res) {
+      this.$api.get_grade({ token: this.token }).then(function (res) {
         console.log(res);
         _this.grade = res.data.grade_list;
         _this.exercise_selection();
@@ -415,13 +419,12 @@ __webpack_require__.r(__webpack_exports__);
     //教辅版本列表
     version: function version() {var _this3 = this;
       // this.get_konw()
-      this.$api.version().
-      then(function (res) {
+      this.$api.version().then(function (res) {
         console.log(res);
         if (res.code != 200) {
           uni.showToast({
             title: res.msg,
-            icon: "none",
+            icon: 'none',
             duration: 3000 });
 
         }
@@ -431,8 +434,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //知识点
     get_konw: function get_konw() {var _this4 = this;
-      if (this.subject_id == 1)
-      return false;
+      if (this.subject_id == 1) return false;
       if (uni.getStorageSync('type') == 3) {
         var req = this.$api.teacher_know_point({ token: this.token });
       } else {
@@ -445,30 +447,26 @@ __webpack_require__.r(__webpack_exports__);
           _this4.exercises_list = [];
           uni.showToast({
             title: res.msg,
-            icon: "none",
+            icon: 'none',
             duration: 3000 });
 
         } else {
           _this4.know_point_list = [{ title: '知识点', id: 0 }].concat(_toConsumableArray(res.data.know_point_list));
           console.log('this.know_point_list3433', _this4.know_point_list);
-
         }
         _this4.exercise_selection();
       });
-
     },
     //习题难度
     get_level: function get_level() {var _this5 = this;
-      this.$api.level().
-      then(function (res) {
+      this.$api.level().then(function (res) {
         console.log(res);
         _this5.level_list = [{ title: '难度', id: 0 }].concat(_toConsumableArray(res.data));
       });
     },
     //题型
     exercise_type: function exercise_type() {var _this6 = this;
-      this.$api.exercise_type({ subject_id: this.subject_id }).
-      then(function (res) {
+      this.$api.exercise_type({ subject_id: this.subject_id }).then(function (res) {
         console.log('题型列表1', res);
         _this6.question_type = [{ title: '题型', id: 0 }].concat(_toConsumableArray(res.data));
       });
@@ -488,7 +486,6 @@ __webpack_require__.r(__webpack_exports__);
           page: this.page };
 
         var req = this.$api.teacher_textbook_exercises(data);
-
       } else {
         var _data = {
           token: this.token,
@@ -508,7 +505,7 @@ __webpack_require__.r(__webpack_exports__);
           _this7.exercises_list = [];
           uni.showToast({
             title: res.msg,
-            icon: "none",
+            icon: 'none',
             duration: 3000 });
 
         } else {
@@ -520,7 +517,6 @@ __webpack_require__.r(__webpack_exports__);
             console.log('789', _this7.exercises_list);
           }
         }
-
       });
     },
     //加入错题
@@ -548,9 +544,9 @@ __webpack_require__.r(__webpack_exports__);
           }
         } else {
           /* uni.showToast({
-                	title:res.msg,
-                	icon:'none'
-                }) */
+                		title:res.msg,
+                		icon:'none'
+                	}) */
         }
 
         _this8.update = false;
@@ -735,7 +731,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 46:
 /*!*********************************************************************************************************!*\
-  !*** D:/前端/工作业务/cuotibao/AI错题宝/pages/knowledgeBase/knowledgeBase.vue?vue&type=style&index=0&lang=scss& ***!
+  !*** D:/前端/工作业务/cuotibao/wxapp/pages/knowledgeBase/knowledgeBase.vue?vue&type=style&index=0&lang=scss& ***!
   \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -751,7 +747,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 47:
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/AI错题宝/pages/knowledgeBase/knowledgeBase.vue?vue&type=style&index=0&lang=scss& ***!
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/前端/工作业务/cuotibao/wxapp/pages/knowledgeBase/knowledgeBase.vue?vue&type=style&index=0&lang=scss& ***!
   \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
