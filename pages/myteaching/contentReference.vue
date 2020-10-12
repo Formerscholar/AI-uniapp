@@ -22,7 +22,10 @@
 			</view>
 			<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/icon/right.png" mode="" class="detail"></image>
 		</view>
-		<view class="nomore" v-if="textbook_list.length == 0 || !textbook_list">你还没有添加自己的教辅！</view>
+		<view class="kong" v-if="textbook_list.length == 0">
+			<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/bg/noPaper.png" />
+			<view>还没有选择教辅材料</view>
+		</view>
 		<view class="btn" @click="toselect()">选择教辅</view>
 		<!-- 遮罩层 -->
 		<view class="zt" v-show="false"></view>
@@ -41,7 +44,8 @@ export default {
 			semester: '',
 			page: 1,
 			is_more: 1,
-			subject_name: ''
+			subject_name: '',
+			selectNUM: 0
 		};
 	},
 	onReachBottom() {
@@ -52,8 +56,9 @@ export default {
 		}
 	},
 	onShow() {
-		this.subject_fenlei();
+		// this.subject_fenlei();
 		// this.get_semester()
+		this.selection(this.selectNUM);
 	},
 	onLoad(options) {
 		if (uni.getStorageSync('userInfo').token) {
@@ -62,6 +67,7 @@ export default {
 		if (uni.getStorageSync('type')) {
 			this.type = uni.getStorageSync('type');
 		}
+		this.subject_fenlei();
 	},
 	methods: {
 		//习题难度
@@ -119,6 +125,7 @@ export default {
 			});
 		},
 		selection(i) {
+			this.selectNUM = i;
 			this.page = 1;
 			this.subject_list.forEach((e, j, arr) => {
 				console.log(i);
@@ -134,6 +141,7 @@ export default {
 			});
 		},
 		toTeachingPhoto(obj, subject_name) {
+			console.log('toTeachingPhoto', JSON.stringify(obj), subject_name);
 			uni.navigateTo({
 				url: '/pages/myteaching/myteachingPhoto?from=2&obj=' + JSON.stringify(obj) + '&subject_name=' + subject_name
 			});
@@ -179,6 +187,7 @@ page {
 	justify-content: space-between;
 	.subject {
 		font-size: 32rpx;
+		font-weight: 700;
 	}
 	.value {
 		border: 1rpx solid #e50304;
@@ -202,9 +211,9 @@ page {
 	}
 }
 .card {
-	height: 160rpx;
+	height: 190rpx;
 	border: 1rpx solid #eee;
-	padding: 15rpx 30rpx;
+	padding: 30rpx;
 	margin: 0 30rpx;
 	border-radius: 20rpx;
 	margin: 25rpx 0;
@@ -215,7 +224,7 @@ page {
 	flex-flow: row nowrap;
 	justify-content: flex-start;
 	image.subject {
-		width: 120rpx;
+		width: 110rpx;
 		height: 100%;
 		margin: 0 30rpx 0 0;
 		vertical-align: middle;

@@ -93,21 +93,22 @@
 						}
 					})
 				}else{
-					console.log('学生登录');
+					console.log('学生登录',this.userInfo);
 					this.$api.student_login({
 						code:this.code,
 						openId: this.userInfo.openId,
-						nickName: this.userInfo.nickName,
+						user_name: this.userInfo.nickName,
 						gender: this.userInfo.gender,
 						city: this.userInfo.city,
 						province: this.userInfo.province,
 						country: this.userInfo.country,
-						avatarUrl: this.userInfo.avatarUrl,
+						avatar: this.userInfo.avatarUrl,
 						unionId: this.userInfo.unionId,
 						watermark: this.userInfo.watermark
 					})
 					.then(res=>{
 						this.session_key=res.data.session_key
+						this.openid=res.data.openid
 						console.log('res',res) 
 						if(res.code==200){
 							this.login(res.data)
@@ -139,6 +140,7 @@
 				console.log(e)
 			},
 			getphone(e){
+				
 				console.log(e)			
 				let data={
 					code:this.code,

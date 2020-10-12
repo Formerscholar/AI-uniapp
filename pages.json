@@ -51,7 +51,7 @@
         ,{
             "path" : "pages/myteaching/myteaching",
             "style": {
-            	"navigationBarTitleText": "添加教辅"
+            	"navigationBarTitleText": "选择教辅"
             }
         }
         ,{
@@ -207,9 +207,9 @@
 		    }
 		},
 		{
-		    "path" : "pages/myteaching/myteachingPhoto_result",
+		    "path" : "pages/myteaching/customPhoto",
 		    "style" : {
-		    	"navigationBarTitleText": "拍搜结果"
+		    	"navigationBarTitleText": "拍照识题"
 		    }
 		},
 		{
@@ -222,7 +222,6 @@
 	"tabBar": {
 		"color": "#999999",
 		"selectedColor": "#e50304",
-		// "borderStyle": "#e7e7e7",
 		"borderStyle": "white",
 		"backgroundColor": "#ffffff",
 		"list": [{

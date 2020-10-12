@@ -27,9 +27,9 @@
 					></image>
 				</view>
 			</view>
-			<view class="nomore" v-if="textbook_list.length == 0 || !textbook_list">当前学科没有教辅！</view>
+			<view class="nomore" v-if="textbook_list.length == 0 || !textbook_list">当前学科没有设置教辅！</view>
 		</view>
-		<view class="list listAttr" v-if="from == 2">
+		<view class="teachingCon" v-if="from == 2">
 			<view class="card">
 				<image :src="obj.icon" mode="" class="subject"></image>
 				<view class="title">
@@ -92,7 +92,6 @@ export default {
 	},
 	onShow() {},
 	onLoad(option) {
-		this.subject_fenlei();
 		if (uni.getStorageSync('userInfo').token) {
 			this.token = uni.getStorageSync('userInfo').token;
 		}
@@ -100,6 +99,7 @@ export default {
 		this.from = option.from;
 		if (this.from == 1) {
 			//首页拍照识题
+			this.subject_fenlei();
 			this.subtitle = '教辅';
 			let _this = this;
 			setTimeout(function() {
@@ -110,10 +110,12 @@ export default {
 			this.subtitle = '当前教辅';
 			this.obj = JSON.parse(option.obj);
 			this.textbook_id = this.obj.textbook_id;
+			this.title = this.obj.textbook_name;
 			this.tpage = this.obj.tpage;
 			this.subject_name = option.subject_name;
 			console.log('this.obj', this.obj);
 			console.log('this.obj.tpage', this.obj.tpage);
+			console.log('onLoad(option)',this.textbook_id,this.subject_name)
 			//this.sumPage(5)
 			if (!this.obj.tpage) {
 				this.tpage = 1;
@@ -215,71 +217,77 @@ export default {
 		//上传图片
 		checkimg() {
 			if (this.textbook_id) {
-				// this.update=false
-				let _this = this;
-				uni.chooseImage({
-					count: 1, //默认9
-					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-					sourceType: ['camera'], //从相册选择
-					success: res => {
-						console.log(res.tempFilePaths);
-						_this.img = res.tempFilePaths[0];
-						let url = _this.$api.url + 'main/upload_pic';
-						uni.uploadFile({
-							url: url,
-							filePath: _this.img,
-							name: 'file',
-							formData: {
-								token: _this.token,
-								path: 'search'
-							},
-							success: res => {
-								_this.pic = res.data;
-								console.log('返回', res.data);
-								if (this.from == 2) {
-									this.title = this.obj.textbook_name;
-								}
-								// _this.search_exercises()
-								uni.navigateTo({
-									url:
-										'/pages/myteaching/myteachingPhoto_result?pic=' +
-										_this.pic +
-										'&textbook_id=' +
-										_this.textbook_id +
-										'&choosePage=' +
-										_this.choosePage +
-										'&title=' +
-										_this.title +
-										'&subject_name=' +
-										_this.subject_name
-								});
-								/* if(_this.from==1){
-										_this.textbook_id=''
-										_this.tpage=1
-										_this.numArr=['第1页']
-									}
-									_this.index=0 */
-							},
-							error: function(e) {
-								/* if(_this.from==1){
-										_this.textbook_id=''
-										_this.tpage=1
-										_this.numArr=['第1页']
-									}
-									_this.index=0 */
-							}
-						});
-					},
-					fail: e => {
-						console.log(e);
-						/* if(_this.from==1){
-								_this.textbook_id=''
-								_this.tpage=1
-								_this.numArr=['第1页']
-							}
-							_this.index=0 */
+				// this.update=false  
+				uni.navigateTo({
+					url: '/pages/myteaching/customPhoto?textbook_id=' + this.textbook_id + '&choosePage=' + this.choosePage + '&title=' + this.title + '&subject_name=' + this.subject_name,
+					success: () => {
+						console.log('跳转自定义拍照页面', this.textbook_id, this.choosePage, this.title, this.subject_name);
 					}
 				});
+				// let _this = this;
+				// uni.chooseImage({
+				// 	count: 1, //默认9
+				// 	sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+				// 	sourceType: ['camera'], //从相册选择
+				// 	success: res => {
+				// 		console.log(res.tempFilePaths);
+				// 		_this.img = res.tempFilePaths[0];
+				// 		let url = _this.$api.url + 'main/upload_pic';
+				// 		uni.uploadFile({
+				// 			url: url,
+				// 			filePath: _this.img,
+				// 			name: 'file',
+				// 			formData: {
+				// 				token: _this.token,
+				// 				path: 'search'
+				// 			},
+				// 			success: res => {
+				// 				_this.pic = res.data;
+				// 				console.log('返回', res.data);
+				// 				if (this.from == 2) {
+				// 					this.title = this.obj.textbook_name;
+				// 				}
+				// 				// _this.search_exercises()
+				// 				uni.navigateTo({
+				// 					url:
+				// 						'/pages/myteaching/myteachingPhoto_result?pic=' +
+				// 						_this.pic +
+				// 						'&textbook_id=' +
+				// 						_this.textbook_id +
+				// 						'&choosePage=' +
+				// 						_this.choosePage +
+				// 						'&title=' +
+				// 						_this.title +
+				// 						'&subject_name=' +
+				// 						_this.subject_name
+				// 				});
+				// 				/* if(_this.from==1){
+				// 						_this.textbook_id=''
+				// 						_this.tpage=1
+				// 						_this.numArr=['第1页']
+				// 					}
+				// 					_this.index=0 */
+				// 			},
+				// 			error: function(e) {
+				// 				/* if(_this.from==1){
+				// 						_this.textbook_id=''
+				// 						_this.tpage=1
+				// 						_this.numArr=['第1页']
+				// 					}
+				// 					_this.index=0 */
+				// 			}
+				// 		});
+				// 	},
+				// 	fail: e => {
+				// 		console.log(e);
+				// 		/* if(_this.from==1){
+				// 				_this.textbook_id=''
+				// 				_this.tpage=1
+				// 				_this.numArr=['第1页']
+				// 			}
+				// 			_this.index=0 */
+				// 	}
+				// });
 			} else {
 				uni.showToast({
 					title: '请先选择相应的教辅',
@@ -310,7 +318,6 @@ page {
 	background: #eee;
 }
 .name {
-	height: 28rpx;
 	font-size: 30rpx;
 	font-family: PingFang SC;
 	font-weight: bold;
@@ -337,23 +344,22 @@ page {
 	}
 }
 .card {
-	height: 180rpx;
+	height: 190rpx;
 	padding: 30rpx 0;
 	margin: 0 30rpx;
 	box-sizing: border-box;
 	position: relative;
-	background: #fff;
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: flex-start;
 	align-items: center;
-	border-bottom: 1px solid #e5e5e5;
+	border-bottom: 1px solid #f5f5f5;
 	&:last-child {
 		border-bottom: none;
 	}
 	image.subject {
-		width: 99rpx;
-		height: 120rpx;
+		width: 110rpx;
+		height: 100%;
 		margin: 0 30rpx 0 0;
 		vertical-align: middle;
 	}
@@ -389,7 +395,7 @@ page {
 		height: 35rpx;
 		position: absolute;
 		top: 50%;
-		right: 35rpx;
+		right: 0;
 		transform: translateY(-50%);
 	}
 }
@@ -397,8 +403,8 @@ page {
 	margin: 25rpx 30rpx;
 	background: #fff;
 	border: 1rpx solid #e7e7e7;
-	height: 100rpx;
-	line-height: 100rpx;
+	height: 190rpx;
+	line-height: 190rpx;
 	border-radius: 20rpx;
 	text-align: center;
 	color: #999;

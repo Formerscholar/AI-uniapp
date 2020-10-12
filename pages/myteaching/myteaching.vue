@@ -21,6 +21,11 @@
 					<view :class="{ 'b-g': item.status ? item.status : item.is_select }" class="default"></view>
 				</view>
 			</block>
+			<view class="kong" v-if="textbook_list.length == 0">
+				<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/bg/noPaper.png" />
+				<view>空空如也~</view>
+				<view>暂时还没有教辅材料</view>
+			</view>
 			<view class="btnCon btnConFix"><button class="btn" @click="tochaxun()">确定</button></view>
 		</view>
 
@@ -125,28 +130,17 @@ export default {
 		open() {
 			this.textbook_ids = [];
 			this.$api.textbook({ token: this.token, subject_id: this.subject_id, semester: this.semester }).then(res => {
-				console.log(res);
-				if (res.code != 200) {
-					uni.showToast({
-						title: res.msg,
-						icon: 'none'
-					});
+				if(res.code == 200){
+					this.textbook_list = res.data.textbook_list;
 				}
-				if (res.msg == '暂无相关教辅') {
-					this.textbook_list = [];
-					return;
-				}
-				this.textbook_list = res.data.textbook_list;
-				// this.textbook_list.forEach((elem,i,arr)=>{
-				// 	elem.status=false
-				// })
-				console.log(this.textbook_list);
-				// this.$refs.popup.open()
 			});
 		},
 		// 点击确定添加教辅
 		tochaxun() {
-			console.log(this.textbook_list);
+			if (this.textbook_list.length == 0) {
+				uni.navigateBack()
+				return;
+			}
 			var arr = this.textbook_list.map(function(elem, i, arr) {
 				return elem.is_select ? elem.textbook_id : '';
 			});
@@ -199,7 +193,7 @@ page {
 }
 .container {
 	width: 100%;
-	padding: 125rpx 30rpx 100rpx;
+	padding: 100rpx 30rpx 100rpx;
 	box-sizing: border-box;
 }
 .pickes {
@@ -210,12 +204,11 @@ page {
 	position: fixed;
 	top: 0;
 	left: 0;
-	background: #fff;
+	background: #eee;
 	width: 100%;
 	z-index: 99;
-	padding: 0 25rpx;
+	padding: 0 30rpx;
 	box-sizing: border-box;
-	border-bottom: 1rpx solid #e7e7e7;
 	.subject {
 		font-size: 32rpx;
 	}
@@ -344,12 +337,12 @@ page {
 	.btn {
 		border: 1rpx solid #fff;
 		width: 400rpx;
-		height: 80rpx;
-		line-height: 80rpx;
+		height: 70rpx;
+		line-height: 70rpx;
 		color: #fff;
 		font-size: 28rpx;
 		background-image: linear-gradient(left, #e50304 0%, #f74300 80%);
-		margin: 10rpx auto;
+		margin: 15rpx auto;
 		border-radius: 20rpx;
 	}
 }
@@ -372,14 +365,14 @@ page {
 	justify-content: flex-start;
 	border: 1rpx solid #eee;
 	position: relative;
-	padding: 15rpx 30rpx;
+	padding: 30rpx;
 	box-sizing: border-box;
 	background: #fff;
 	margin-bottom: 25rpx;
-	height: 160rpx;
+	height: 190rpx;
 	border-radius: 20rpx;
 	> image {
-		width: 120rpx;
+		width: 110rpx;
 		height: 100%;
 		margin-right: 30rpx;
 	}

@@ -20,7 +20,7 @@
 
 			<!-- 未生成试卷 -->
 			<view class="" v-if="select">
-				<view class="content">
+				<view class="content" style="padding-bottom: 80rpx;">
 					<view class="item2" v-for="(item, i) of exercises_list" :key="i" @click="selected_topic(i)">
 						<view v-if="update" :class="{ 'b-n': item.select }" class="b-default"></view>
 						<view class=""><rich-text :nodes="changeStyle(item.content)"></rich-text></view>
@@ -60,6 +60,7 @@
 					</view>
 					<view class="btnCons">
 						<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/icon/delete.png" @click.stop="delete_errorbook(i)" />
+						<view class="line"></view>
 						<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/icon/download.png" @click.stop="generated(item.errorbook_id)" />
 					</view>
 				</view>
@@ -82,12 +83,12 @@
 				<view :class="{ 'b-b': !select }" @click="change(2)" class="button">已生成试卷</view>
 			</view>
 			<!-- 未生成试卷 -->
-			<view class="content" v-if="select">
+			<view class="content" style="padding-bottom: 80rpx;" v-if="select">
 				<view class="item2" v-for="(item, i) of exercises_list" :key="i" @click="selected_topic(i)">
 					<view v-if="update" :class="{ 'b-n': item.select }" class="b-default"></view>
 					<view class=""><rich-text :nodes="changeStyle(item.content)"></rich-text></view>
 				</view>
-				<view v-if="is_more == 0 && exercises_list.length != 0" class="is_more">没有更多试卷了</view>
+				<view v-if="is_more == 0 && exercises_list.length != 0" class="is_more">没有更多试题了</view>
 				<view class="kong" v-if="exercises_list.length == 0">
 					<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/bg/noPaper.png" />
 					<view>空空如也~</view>
@@ -120,6 +121,7 @@
 					</view>
 					<view class="btnCons">
 						<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/icon/delete.png" @click.stop="delete_errorbook(i)" />
+						<view class="line"></view>
 						<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/icon/download.png" @click.stop="generated(item.errorbook_id)" />
 					</view>
 				</view>
@@ -140,6 +142,7 @@
 					<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/icon/creatPaper.png" />
 					选择加入{{ type == 4 ? '错题本' : '试卷' }}
 				</view>
+				<scroll-view scroll-y="true">
 				<view class="listJoin" v-if="errorbook_list.length != 0">
 					<view v-for="(item, i) of errorbook_list" :key="i" @click="seletJoin(i)">
 						<view v-if="update" :class="{ 'b-n': item.status }" class="kuang"></view>
@@ -148,7 +151,8 @@
 						</view>
 					</view>
 				</view>
-				<view v-else class="listJoin none">您还没有生成试卷!</view>
+				<view v-else class="listJoin none">您还没有生成{{ type == 4 ? '错题本' : '试卷' }}!</view>
+				</scroll-view>
 				<view class="btnCon">
 					<button @click="cancelPopupJoin()">取消</button>
 					<button @click="add_exercises_to_errorbook()">保存</button>
@@ -171,6 +175,7 @@
 					<input type="text" v-model="title" placeholder="输入试卷名称" v-if="type == 3" />
 					<input type="text" v-model="title" placeholder="输入错题本名称" v-if="type == 4" />
 				</view>
+				<view class="tip"></view>
 				<view class="btnCon">
 					<button @click="cancel()">取消</button>
 					<button @click="create_error_book()">保存</button>
@@ -179,7 +184,7 @@
 		</uni-popup>
 		<!-- 绑定邮箱弹框 -->
 		<uni-popup ref="popup2" type="center">
-			<view class="mask2">
+			<view class="mask2" style="height: 335rpx;">
 				<view class="" v-if="">
 					<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/icon/creatPaper.png" style="left:130rpx" />
 					绑定邮箱
@@ -187,8 +192,8 @@
 				<view class="put">
 					<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/icon/inputIcon.png" />
 					<input type="text" v-model="email" placeholder="输入邮箱" />
-					<!-- <view>输入您的邮箱账号我们将发送您的错题本文件到您的邮箱</view> -->
 				</view>
+				<view class="tip">文件会发送至您的邮箱</view>
 				<view class="btnCon">
 					<button @click="cancelEmial()">取消</button>
 					<button @click="fasong2()">绑定</button>
@@ -225,7 +230,7 @@ export default {
 			all: true,
 			subject_name: '',
 			formId: '',
-			is_vip: '',
+			is_vip: false,
 			tpmid: ''
 		};
 	},
@@ -250,12 +255,9 @@ export default {
 		if (uni.getStorageSync('type')) {
 			this.type = uni.getStorageSync('type');
 		}
-	},
-	onShow() {
 		if (uni.getStorageSync('is_vip')) {
 			this.is_vip = uni.getStorageSync('is_vip');
 		}
-
 		if (uni.getStorageSync('type') == 3) {
 			this.subject_id = -1;
 			this.wei_error_book();
@@ -274,6 +276,9 @@ export default {
 			this.subject_fenlei();
 		}
 		this.all = true; //取消全选
+	},
+	onShow() {
+		
 	},
 	computed: {
 		// ...mapState(['type'])
@@ -301,6 +306,13 @@ export default {
 			let arrTpmid = [];
 			if (_this.type == 4) {
 				arrTpmid = _this.tpmid.user_errorbook;
+				if(!this.is_vip){
+					uni.showToast({
+						title: '非会员无法下载',
+						icon: 'none'
+					})
+					return false;
+				}
 			} else {
 				arrTpmid = _this.tpmid.teacher_paper;
 			}
@@ -750,8 +762,7 @@ button::after {
 	border: none;
 }
 .student {
-	margin-top: 225rpx;
-	padding-bottom: 80rpx;
+	margin-top: 216rpx;
 	.f-btn {
 		width: 100vw;
 		height: 70rpx;
@@ -793,7 +804,7 @@ button::after {
 		view:first-child {
 		}
 		view:nth-child(2) {
-			width: 90%;
+			width: 92%;
 		}
 	}
 	.b-btn {
@@ -890,72 +901,63 @@ button::after {
 			background-image: linear-gradient(left, rgb(222, 81, 28) 0%, rgb(240, 150, 50) 100%);
 		}
 	}
+}
 
-	.list {
-		margin-top: 20rpx;
-		.l-item {
-			padding: 25rpx;
-			box-sizing: border-box;
-			width: 700rpx;
-			margin: 25rpx;
-			height: 100rpx;
-			line-height: 100rpx;
-			background: #fff;
-			border-bottom: 1rpx solid #eee;
+.list {
+	.l-item {
+		padding: 25rpx;
+		box-sizing: border-box;
+		margin: 25rpx;
+		background: #fff;
+		border: 1rpx solid #e7e7e7;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-radius: 20rpx;
+		.num {
+			// font-size: 0;
 			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			border-radius: 20rpx;
-			.num {
-				// font-size: 0;
-				display: flex;
-				flex-flow: row nowrap;
-				justify-content: flex-start;
-				image {
-					width: 50rpx;
-					height: 50rpx;
-					margin: 25rpx 15rpx 0 0;
+			flex-flow: row nowrap;
+			justify-content: flex-start;
+			image {
+				width: 50rpx;
+				height: 50rpx;
+				margin: auto 25rpx auto 0;
+			}
+			.titleCon {
+				text {
+					display: block;
+					font-size: 30rpx;
+					color: #2c2c2c;
+					width: 405rpx;
 				}
-				.titleCon {
-					text {
-						display: block;
-						font-size: 30rpx;
-						color: #2c2c2c;
-						height: 60rpx;
-						line-height: 70rpx;
-						width: 450rpx;
-						overflow: hidden;
-						white-space: nowrap;
-						text-overflow: ellipsis;
-					}
-					.time {
-						font-size: 24rpx;
-						color: #a7a7a7;
-						height: 40rpx;
-						line-height: 25rpx;
-					}
+				.time {
+					font-size: 24rpx;
+					color: #a7a7a7;
+					margin-top: 10rpx;
 				}
 			}
-			.btnCons {
-				font-size: 0;
-				image {
-					display: inline-block;
-					width: 40rpx;
-					height: 50rpx;
-					margin: 50rpx 30rpx 0 0;
-				}
-				image:nth-last-of-type(1) {
-					margin-right: 0;
-				}
+		}
+		.btnCons {
+			display: flex;
+			image {
+				display: inline-block;
+				width: 40rpx;
+				height: 50rpx;
+				padding:15rpx 30rpx;
+			}
+			.line {
+				width:1px;
+				height: 30px;
+				background:#F5F5F5;
+				margin-top:15rpx;
 			}
 		}
 	}
 }
 
 .teach {
-	.content {
-		padding-bottom: 80rpx;
-	}
+	margin-top: 97rpx;
 	.f-btn {
 		height: 70rpx;
 		line-height: 70rpx;
@@ -989,7 +991,7 @@ button::after {
 		view:first-child {
 		}
 		view:nth-child(2) {
-			width: 90%;
+			width: 92%;
 		}
 	}
 	.item2:nth-of-type(1) {
@@ -1088,72 +1090,12 @@ button::after {
 			background-image: linear-gradient(left, #e50304 0%, #f74300 80%);
 		}
 	}
-
-	.list {
-		margin-top: 95rpx;
-		.l-item {
-			padding: 25rpx;
-			box-sizing: border-box;
-			width: 700rpx;
-			margin: 25rpx;
-			height: 100rpx;
-			line-height: 100rpx;
-			background: #fff;
-			border-bottom: 1rpx solid #eee;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			border-radius: 20rpx;
-			.num {
-				// font-size: 0;
-				display: flex;
-				flex-flow: row nowrap;
-				justify-content: flex-start;
-				image {
-					width: 50rpx;
-					height: 50rpx;
-					margin: 25rpx 15rpx 0 0;
-				}
-				.titleCon {
-					text {
-						display: block;
-						font-size: 30rpx;
-						color: #2c2c2c;
-						height: 60rpx;
-						line-height: 70rpx;
-						width: 450rpx;
-						overflow: hidden;
-						white-space: nowrap;
-						text-overflow: ellipsis;
-					}
-					.time {
-						font-size: 24rpx;
-						color: #a7a7a7;
-						height: 40rpx;
-						line-height: 25rpx;
-					}
-				}
-			}
-			.btnCons {
-				font-size: 0;
-				image {
-					display: inline-block;
-					width: 40rpx;
-					height: 50rpx;
-					margin: 50rpx 30rpx 0 0;
-				}
-				image:nth-last-of-type(1) {
-					margin-right: 0;
-				}
-			}
-		}
-	}
 }
 
 .maskJoin {
 	z-index: 999;
 	width: 500rpx;
-	height: 500rpx;
+	height: 520rpx;
 	background: #fff;
 	border-radius: 20rpx;
 	> view:first-child {
@@ -1180,32 +1122,34 @@ button::after {
 		justify-content: center;
 		align-items: center;
 	}
-	.listJoin {
-		height: 300rpx;
-		overflow-y: auto;
+	scroll-view {
 		width: 100%;
-		> view {
-			display: flex;
-			flex-flow: row nowrap;
-			justify-content: flex-start;
-			align-items: center;
-			padding: 5rpx 30rpx;
-			box-sizing: border-box;
-			height: 60rpx;
-			line-height: 60rpx;
-			.kuang {
-				width: 25rpx;
-				height: 25rpx;
-				border-radius: 50%;
-				border: 0.5rpx solid #c5c5c5;
-				margin-right: 30rpx;
+		height: 300rpx;
+		.listJoin {
+			padding: 10rpx 0;
+			> view {
+				display: flex;
+				flex-flow: row nowrap;
+				justify-content: flex-start;
+				align-items: center;
+				padding: 15rpx 30rpx;
+				box-sizing: border-box;
+				.kuang {
+					width: 25rpx;
+					height: 25rpx;
+					border-radius: 50%;
+					border: 0.5rpx solid #c5c5c5;
+					margin-right: 30rpx;
+				}
+				> view{
+					width:412rpx;
+				}
 			}
 		}
 	}
 	.btnCon {
-		padding-top: 20rpx;
+		padding-top: 30rpx;
 		font-size: 0;
-		height: 100rpx;
 		border-top: 1rpx solid #e7e7e7;
 	}
 	button:nth-of-type(1) {
@@ -1228,7 +1172,7 @@ button::after {
 .mask2 {
 	z-index: 999;
 	width: 500rpx;
-	height: 300rpx;
+	height: 290rpx;
 	background: #fff;
 	border-radius: 20rpx;
 	padding-bottom: 30rpx;
@@ -1253,6 +1197,7 @@ button::after {
 		height: 60rpx;
 		width: 430rpx;
 		margin: 50rpx auto;
+		margin-bottom: 20rpx;
 		border: 1rpx solid #e50304;
 		border-radius: 20rpx;
 		position: relative;
@@ -1271,6 +1216,11 @@ button::after {
 			top: 15rpx;
 			left: 30rpx;
 		}
+	}
+	.tip{
+		font-size: 24rpx;
+		color: #999999;
+		margin: 0 40rpx 40rpx 40rpx;
 	}
 	.btnCon {
 		font-size: 0;
