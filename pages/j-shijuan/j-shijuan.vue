@@ -39,7 +39,12 @@
 
 		<view class="mask" v-show="false">
 			<view class="">绑定邮箱</view>
-			<view class="put"><input type="text" value="" placeholder="输入邮箱" /></view>
+			<view class="put">
+				<input type="text" value="" placeholder="输入邮箱" />
+				<view class="text_tip" v-if="is_tip">
+					<text v-for="(item, index) in email_arr" :key="index" :data-suffix="item" @click="texthandleClick">{{ email + item }}</text>
+				</view>
+			</view>
 			<button type="primary">绑定</button>
 		</view>
 		<!-- 遮罩 -->
@@ -48,13 +53,34 @@
 </template>
 
 <script>
+let app = getApp();
 export default {
 	data() {
 		return {
-			select: true
+			select: true,
+			email_arr: []
 		};
 	},
-	methods: {}
+	onLoad() {
+		this.email_arr = app.globalData.email;
+	},
+	methods: {
+		texthandleClick(e) {
+			this.email = this.email + e.currentTarget.dataset.suffix;
+			this.is_tip = false;
+		},
+		inputHandle() {
+			if (this.email.indexOf('@') != -1) {
+				this.is_tip = false;
+			} else {
+				if (this.email == '') {
+					this.is_tip = false;
+				} else {
+					this.is_tip = true;
+				}
+			}
+		}
+	}
 };
 </script>
 
@@ -86,5 +112,32 @@ button::after {
 	background: #666;
 	opacity: 0.5;
 	z-index: 99;
+}
+.mask {
+	.put {
+		position: relative;
+		.text_tip {
+			width: 80%;
+			position: absolute;
+			left: 75rpx;
+			top: 70rpx;
+			font-size: 24rpx;
+			background-color: #ffffff;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
+			z-index: 11;
+			overflow: hidden;
+			text {
+				width: 100%;
+				text-align: left;
+				padding: 10rpx;
+				margin-bottom: 5rpx;
+				padding-left: 30rpx;
+			}
+		}
+	}
 }
 </style>

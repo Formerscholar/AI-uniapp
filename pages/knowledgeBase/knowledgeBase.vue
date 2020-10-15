@@ -195,8 +195,8 @@ export default {
 		}
 	},
 	onLoad() {
-		if (uni.getStorageSync('userInfo').token) {
-			this.token = uni.getStorageSync('userInfo').token;
+		if (uni.getStorageSync('token')) {
+			this.token = uni.getStorageSync('token');
 		}
 		this.subject_fenlei();
 		// this.exercise_type()
@@ -226,7 +226,7 @@ export default {
 			this.$api.get_grade({ token: this.token }).then(res => {
 				console.log(res);
 				this.grade = res.data.grade_list;
-				this.exercise_selection();
+				// this.exercise_selection();
 			});
 		},
 		rn(str) {

@@ -5,23 +5,20 @@ function request(url, data = {}, method = "post") {
 		uni.showLoading({
 			title: '数据加载中',
 		})
-		const userInfoData = uni.getStorageSync('userInfo')
 		uni.getSystemInfo({
 			success: (res) => {
-				const {
-					miniProgram
-				} = uni.getAccountInfoSync()
-				if (data.token == '') {
-					data.token = userInfoData.token
+				const token = uni.getStorageSync('token')
+				data = {
+					token: token,
+					...data
 				}
-				if (!data.hasOwnProperty('token')) {
-					data = {
-						token: userInfoData.token,
-						...data
-					}
+				const pages = getCurrentPages()
+				const currentPage = pages[pages.length - 1] || {
+					is: ''
 				}
-				const pages = getCurrentPages() 
-				const currentPage = pages[pages.length-1] 
+				const miniProgram = uni.getStorageSync('miniProgram') || {
+					version: ""
+				}
 				uni.request({
 					url: url,
 					data: data,

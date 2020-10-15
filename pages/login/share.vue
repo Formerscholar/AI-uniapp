@@ -25,10 +25,10 @@ export default {
 			class_id: '',
 			school_id: '',
 			teacher_name: '',
-			disable: false,
 			token: '',
 			userInfo: {},
-			code: ''
+			code: '',
+			openid:''
 		};
 	},
 	onLoad(options) {
@@ -81,18 +81,32 @@ export default {
 					grade_ids: this.grade_ids,
 					team_ids: this.team_ids,
 					true_name: this.true_name,
-					user_id: this.user_id,
 					user_name: this.userInfo.nickName,
 					avatar: this.userInfo.avatarUrl,
-					gender: this.userInfo.gender
+					gender: this.userInfo.gender,
+					openid: this.openid_tmp
 				})
+				// this.openid_tmp
 				.then(reslove => {
 					console.log('bind_info', reslove);
 					uni.showToast({
 						title: reslove.msg,
 						icon: 'none'
 					});
-					if(reslove.code == 200 ){
+					if (reslove.code == 200) {
+						this.login(reslove.data)
+						uni.setStorage({
+							key: 'userinfo_tmp',
+							data: reslove.data
+						});
+						uni.setStorage({
+							key: 'token',
+							data: reslove.data.token
+						});
+						uni.setStorage({
+							key: 'userInfo',
+							data: reslove.data
+						});
 						uni.reLaunch({
 							url: '/pages/index/index'
 						});
@@ -100,41 +114,39 @@ export default {
 				});
 		},
 		get_student_login() {
-			let data = {
-				code: this.code,
-				openId: this.userInfo.openId,
-				user_name: this.userInfo.nickName,
-				gender: this.userInfo.gender,
-				city: this.userInfo.city,
-				province: this.userInfo.province,
-				country: this.userInfo.country,
-				avatar: this.userInfo.avatarUrl,
-				unionId: this.userInfo.unionId,
-				watermark: this.userInfo.watermark
-			};
-			this.$api.student_login(data).then(res => {
-				this.openid_tmp = res.data.openid;
-				console.log(this.openid_tmp);
-				if (res.code == 200) {
-					this.user_id = res.data.user_id;
-					uni.setStorage({
-						key: 'userinfo_tmp',
-						data: res.data
-					});
-					uni.setStorage({
-						key: 'token',
-						data: res.data.token
-					});
-					uni.setStorage({
-						key: 'userInfo',
-						data: res.data
-					});
-					this.true_name = res.data.true_name;
-					this.disable = true;
-				} else {
-					this.disable = false;
-				}
-			});
+			this.$api
+				.student_login({
+					code: this.code
+				})
+				.then(res => {
+					this.openid_tmp = res.data.openid;
+					console.log(this.openid_tmp);
+					if (res.code == 200) {
+						this.user_id = res.data.user_id;
+						this.true_name = res.data.true_name;
+						uni.setStorage({
+							key: 'userinfo_tmp',
+							data: res.data
+						});
+						uni.setStorage({
+							key: 'token',
+							data: res.data.token
+						});
+						uni.setStorage({
+							key: 'userInfo',
+							data: res.data
+						});
+						uni.setStorage({
+							key: 'is_vip',  
+							data: res.data.is_vip
+						})
+						uni.setStorage({
+							key:"type",
+							data:4
+						})
+						this.login(res.data)
+					}
+				});
 		},
 		bindgetuserinfo(e, i) {
 			uni.setStorage({

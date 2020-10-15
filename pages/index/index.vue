@@ -319,23 +319,23 @@ page {
 		box-sizing: border-box;
 		border: 1rpx solid #e7e7e7;
 		.title {
+			overflow: hidden;
 			> text:nth-of-type(1) {
 				text-align: center;
 				font-weight: bold;
 				font-size: 36rpx;
-				margin-bottom: 20rpx;
 			}
 		}
 		.showDe {
 			font-size: 26rpx;
 			color: #afafaf;
-			width: 310rpx;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			text-align: center;
-			margin-bottom: 10rpx !important;
-			.remark_red{
+			margin: 5rpx 0;
+			margin-top: 10rpx;
+			.remark_red {
 				margin-left: 10rpx;
 			}
 		}
@@ -375,6 +375,7 @@ page {
 		justify-content: flex-start;
 		box-sizing: border-box;
 		border: 1rpx solid #e7e7e7;
+		overflow: hidden;
 		.title {
 			margin: auto 0;
 			display: flex;
@@ -383,7 +384,6 @@ page {
 			> text {
 				color: #000;
 				font-size: 36rpx;
-				margin-bottom: 20rpx;
 			}
 			> view {
 				color: #afafaf;
@@ -500,7 +500,7 @@ page {
 			font-size: 26rpx;
 		}
 	}
-	.tb:last-child{
+	.tb:last-child {
 		margin-right: 0;
 	}
 }

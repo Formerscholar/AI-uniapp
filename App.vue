@@ -1,9 +1,28 @@
 <script>
 export default {
 	globalData: {
-		settings: {}
+		settings: {},
+		email:[
+			'@qq.com',
+			'@163.com',
+			'@126.com',
+			'@sina.com',
+			'@sohu.com',
+			'@yeah.net',
+			'@139.com',
+			'@189.cn'
+		]
 	},
 	onLaunch: function() {
+		this.$api.get_settings('Get').then(res => {
+			this.globalData.settings = res.data;
+		});
+		uni.setStorage({
+			key: 'miniProgram',
+			data: uni.getAccountInfoSync()
+		});
+	},
+	onShow: () => {
 		const updateManager = uni.getUpdateManager();
 		updateManager.onCheckForUpdate(function(res) {
 			// 请求完新版本信息的回调
@@ -36,10 +55,6 @@ export default {
 					}
 				}
 			});
-		});
-
-		this.$api.get_settings('get').then(res => {
-			this.globalData.settings = res.data;
 		});
 	}
 };

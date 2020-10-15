@@ -59,8 +59,10 @@
 				</view>
 				<view class="put">
 					<image src="//aictb.oss-cn-shanghai.aliyuncs.com/wx_xcx/icon/inputIcon.png" />
-					<input type="text" v-model="email" placeholder="输入邮箱" />
-					<!-- <view>输入您的邮箱账号我们将发送您的错题本文件到您的邮箱</view> -->
+					<input type="text" @input="inputHandle" v-model="email" placeholder="输入邮箱" />
+					<view class="text_tip" v-if="is_tip">
+						<text v-for="(item, index) in email_arr" :key="index" :data-suffix="item" @click="texthandleClick">{{ email + item }}</text>
+					</view>
 				</view>
 				<view class="btnCon">
 					<button @click="cancelEmial()">取消</button>
@@ -89,7 +91,9 @@ export default {
 			subject_id: '',
 			based_id: '',
 			email: '',
-			tpmid: ''
+			tpmid: '',
+			is_tip: false,
+			email_arr: []
 		};
 	},
 	onReachBottom() {
@@ -104,7 +108,8 @@ export default {
 	},
 	onShow() {},
 	onLoad() {
-		this.tpmid = app.globalData.settings.tpmid;
+		this.email_arr = app.globalData.email;
+		this.tpmid = app.globalData.settings.tmpid;
 		console.log('this.tpmid', this.tpmid);
 
 		if (uni.getStorageSync('token')) {
@@ -118,6 +123,21 @@ export default {
 		}
 	},
 	methods: {
+		texthandleClick(e) {
+			this.email = this.email + e.currentTarget.dataset.suffix;
+			this.is_tip = false;
+		},
+		inputHandle() {
+			if (this.email.indexOf('@') != -1) {
+				this.is_tip = false;
+			} else {
+				if (this.email == '') {
+					this.is_tip = false;
+				} else {
+					this.is_tip = true;
+				}
+			}
+		},
 		//点击生成错题本/生成试卷
 		generated(id) {
 			let _this = this;
@@ -351,10 +371,10 @@ page {
 			}
 		}
 		.right {
-			padding:40rpx 0;
+			padding: 40rpx 0;
 			display: flex;
 			margin: auto 0;
-			.arrow{
+			.arrow {
 				width: 14rpx;
 				height: 26rpx;
 			}
@@ -424,6 +444,28 @@ page {
 			position: absolute;
 			top: 15rpx;
 			left: 30rpx;
+		}
+		.text_tip {
+			width: 80%;
+			position: absolute;
+			left: 75rpx;
+			top: 70rpx;
+			font-size: 24rpx;
+			background-color: #ffffff;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
+			z-index: 11;
+			overflow: hidden;
+			text {
+				width: 100%;
+				text-align: left;
+				padding: 10rpx;
+				margin-bottom: 5rpx;
+				padding-left: 30rpx;
+			}
 		}
 	}
 	.btnCon {
